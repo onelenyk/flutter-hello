@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AdminContainerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AdminContainerScreen(),
+      );
+    },
     AdminRoute.name: (routeData) {
       final args = routeData.argsAs<AdminRouteArgs>(
           orElse: () => const AdminRouteArgs());
@@ -31,6 +37,14 @@ abstract class _$AppRouter extends RootStackRouter {
         child: HelloScreen(key: args.key),
       );
     },
+    ListMenuRoute.name: (routeData) {
+      final args = routeData.argsAs<ListMenuRouteArgs>(
+          orElse: () => const ListMenuRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ListMenuScreen(key: args.key),
+      );
+    },
     LoginRoute.name: (routeData) {
       final args = routeData.argsAs<LoginRouteArgs>(
           orElse: () => const LoginRouteArgs());
@@ -39,22 +53,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: LoginScreen(key: args.key),
       );
     },
-    MenuRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<MenuRouteArgs>(orElse: () => const MenuRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: MenuScreen(key: args.key),
-      );
-    },
-    MenyushaRoute.name: (routeData) {
-      final args = routeData.argsAs<MenyushaRouteArgs>(
-          orElse: () => const MenyushaRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: MenyushaScreen(key: args.key),
-      );
-    },
+
     MobileEraRoute.name: (routeData) {
       final args = routeData.argsAs<MobileEraRouteArgs>(
           orElse: () => const MobileEraRouteArgs());
@@ -69,6 +68,18 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: NotFoundScreen(key: args.key),
+      );
+    },
+    PrivateMenuRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<PrivateMenuRouteArgs>(
+          orElse: () => PrivateMenuRouteArgs(id: pathParams.getString('id')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PrivateMenuScreen(
+          key: args.key,
+          id: args.id,
+        ),
       );
     },
     PublicMenuRoute.name: (routeData) {
@@ -92,6 +103,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AdminContainerScreen]
+class AdminContainerRoute extends PageRouteInfo<void> {
+  const AdminContainerRoute({List<PageRouteInfo>? children})
+      : super(
+          AdminContainerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AdminContainerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -147,6 +172,35 @@ class HelloRouteArgs {
   @override
   String toString() {
     return 'HelloRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [ListMenuScreen]
+class ListMenuRoute extends PageRouteInfo<ListMenuRouteArgs> {
+  ListMenuRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ListMenuRoute.name,
+          args: ListMenuRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'ListMenuRoute';
+
+  static const PageInfo<ListMenuRouteArgs> page =
+      PageInfo<ListMenuRouteArgs>(name);
+}
+
+class ListMenuRouteArgs {
+  const ListMenuRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ListMenuRouteArgs{key: $key}';
   }
 }
 
@@ -290,6 +344,45 @@ class NotFoundRouteArgs {
   @override
   String toString() {
     return 'NotFoundRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [PrivateMenuScreen]
+class PrivateMenuRoute extends PageRouteInfo<PrivateMenuRouteArgs> {
+  PrivateMenuRoute({
+    Key? key,
+    required String id,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PrivateMenuRoute.name,
+          args: PrivateMenuRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
+          initialChildren: children,
+        );
+
+  static const String name = 'PrivateMenuRoute';
+
+  static const PageInfo<PrivateMenuRouteArgs> page =
+      PageInfo<PrivateMenuRouteArgs>(name);
+}
+
+class PrivateMenuRouteArgs {
+  const PrivateMenuRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'PrivateMenuRouteArgs{key: $key, id: $id}';
   }
 }
 

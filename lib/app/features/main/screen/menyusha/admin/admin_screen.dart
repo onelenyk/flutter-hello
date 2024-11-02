@@ -10,6 +10,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:menyusha/app/common/link_utils.dart";
 import "package:url_launcher/url_launcher.dart";
 
+import "../../../../../common/hover_button.dart";
 import "../../../../../data/firebase/auth/auth_state.dart";
 import "../../../../../data/firebase/menu/menu_payload.dart";
 import "../../../../../root/app_router.dart";
@@ -17,7 +18,6 @@ import "../login/auth_cubit.dart";
 import "../../base/responsive_state.dart";
 import "../a4_page_container.dart";
 import "../login/login_screen.dart";
-import "../menu/menu_screen.dart";
 import "../theme/app_style.dart";
 import "admin_cubit.dart";
 import "admin_state.dart";
@@ -80,7 +80,7 @@ class _AdminScreenState
         });
   }
 
-  Widget _buildDescription() {
+  Widget buildDescription() {
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.start,

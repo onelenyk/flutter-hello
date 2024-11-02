@@ -13,10 +13,7 @@ class BaseScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Scaffold(
-        body: BackgroundSvgContainer(
-          svgPath: "assets/svg/pattern.svg",
-          child: Center(child: child),
-        ),
+        body: Center(child: child),
         backgroundColor: Colors.black,
       );
 }

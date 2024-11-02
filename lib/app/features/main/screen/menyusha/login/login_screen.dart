@@ -216,6 +216,29 @@ class _LoginScreenState
                   ),
                 ),
               ),
+              if (!buildConfig.isProduction)
+                Column(
+                  children: [
+                    SizedBox(height: 8.0),
+                    AppDesign.buildBeigeFilledButton(
+                      onPressed: () {
+                        if (state is AuthInitial) {
+                          widget.cubit.adminSignIn(state.email, state.password);
+                          return;
+                        } else {
+                          return;
+                        }
+                      },
+                      child: SizedBox(
+                        width: 150,
+                        child: Center(
+                          child: Text("Admin sign in",
+                              style: AppStyles.beigeFilledButtonTextStyle),
+                        ),
+                      ),
+                    )
+                  ],
+                )
             ],
           ),
         ),
