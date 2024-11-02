@@ -1,5 +1,10 @@
+import "package:auto_route/auto_route.dart";
 import "package:flutter/material.dart";
+import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
+
+import "../../../../../root/app_router.dart";
+import "../login/auth_cubit.dart";
 
 class AppDesign {
   static Widget buildLogo() => Image.asset(
@@ -7,6 +12,26 @@ class AppDesign {
         width: 270,
         height: 130,
       );
+
+  static Widget buildUserButton(BuildContext context) {
+    final getIt = GetIt.instance;
+    final cubit = getIt.get<AuthenticationCubit>();
+    final state = cubit.state;
+
+    return AppDesign.buildBlueOutlinedButton(
+        child: Text(
+          state.login ?? "",
+          style: AppStyles.blueOutlinedButtonTextStyle,
+        ),
+        onPressed: () {
+          cubit.signOut();
+          final router = AutoRouter.of(context);
+          router.navigate(
+            MobileEraRoute(),
+          );
+        });
+  }
+
 
   static Widget buildBlueFilledButton({
     required final Widget child,
@@ -36,12 +61,41 @@ class AppDesign {
         ),
       );
 
+  static Widget buildOutlinedButton({
+    required final Widget child,
+    required final VoidCallback onPressed,
+    final bool enabled = true,
+    final EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 4.0),
+    final Color backgroundColor = AppColors.blueAccent,
+    final Color backgroundColorInactive = AppColors.blueAccent,
+  }) =>
+      SizedBox(
+        height: 44,
+        child: OutlinedButton(
+          onPressed: enabled ? onPressed : null,
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            side: BorderSide(
+                color: enabled ? backgroundColor : backgroundColorInactive   .withOpacity(0.5),
+                width: 2.0),
+            // Beige border color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: child,
+          ),
+        ),
+      );
+
+
   static Widget buildBlueOutlinedButton({
     required final Widget child,
     required final VoidCallback onPressed,
     final bool enabled = true,
-    final EdgeInsetsGeometry? padding =
-        const EdgeInsets.symmetric(horizontal: 4.0),
+    final EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 4.0),
   }) =>
       SizedBox(
         height: 44,
@@ -67,15 +121,17 @@ class AppDesign {
   static Widget buildBeigeFilledButton({
     required final Widget child,
     required final VoidCallback onPressed,
+    final bool enabled = true,
+
     final EdgeInsetsGeometry? padding =
         const EdgeInsets.symmetric(horizontal: 4.0),
   }) =>
       SizedBox(
         height: 44,
         child: ElevatedButton(
-          onPressed: onPressed,
+          onPressed: enabled ? onPressed : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.beigeAccent, // Custom blue color
+            backgroundColor: enabled ? AppColors.beigeAccent : AppColors.beigeAccent   .withOpacity(0.5),
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),

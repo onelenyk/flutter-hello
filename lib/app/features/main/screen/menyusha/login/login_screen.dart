@@ -10,6 +10,7 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:menyusha/app/common/hover_button.dart";
+import "package:menyusha/main.dart";
 
 import "../../../../../common/info_block.dart";
 import "../../../../../data/firebase/auth/auth_state.dart";
@@ -46,7 +47,7 @@ class _LoginScreenState
     if (widget.cubit.state is AuthSuccess) {
       final router = AutoRouter.of(context);
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        router.navigate(AdminRoute());
+        router.navigate(AdminContainerRoute());
       });
     }
   }
@@ -60,7 +61,7 @@ class _LoginScreenState
       // Navigate to the home screen or any other screen on successful login
       final router = AutoRouter.of(context);
 
-      router.navigate(AdminRoute());
+      router.navigate(AdminContainerRoute());
       print("AuthenticationSuccess: Navigating to home");
     } else if (state is AuthFailed) {
       // Show a snackbar or dialog with the error message

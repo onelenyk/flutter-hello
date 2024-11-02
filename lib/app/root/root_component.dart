@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:menyusha/app/features/main/screen/menyusha/admin/list_menu/list_menu_cubit.dart";
+import "package:menyusha/app/features/main/screen/menyusha/admin/view_menu/private_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/login/auth_cubit.dart";
 import "package:menyusha/app/data/repository/firestore_repository.dart";
 import "package:menyusha/app/data/services/firestore_service.dart";
-import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_cubit.dart";
-import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_screen.dart";
 import "package:menyusha/app/root/app_router.dart";
 import "package:menyusha/main.dart";
 
@@ -20,10 +20,13 @@ class RootComponent extends StatelessWidget {
       ..registerSingleton<FirestoreService>(FirestoreService())
       ..registerSingleton<AuthenticationCubit>(
           AuthenticationCubit(firebaseAuth))
-      ..registerSingleton<MenyushaCubit>(MenyushaCubit())
+      ..registerSingleton<ListMenuCubit>(ListMenuCubit())
       ..registerSingleton<AdminCubit>(AdminCubit())
       ..registerFactoryParam<PublicMenuCubit, String, void>(
         (id, _) => PublicMenuCubit(id),
+      )
+      ..registerFactoryParam<PrivateMenuCubit, String, void>(
+            (id, _) => PrivateMenuCubit(id),
       )
       //  ..registerSingleton<UserPayloadRepository2>(UserPayloadRepository2())
       ..registerSingleton<UserPayloadRepository>(

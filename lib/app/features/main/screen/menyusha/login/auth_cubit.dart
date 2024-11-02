@@ -133,6 +133,19 @@ class AuthenticationCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> adminSignIn(
+      final String email, final String password) async {
+    emit(AuthState.authLoading());
+    try {
+      final userCredential = await _signIn("lenyk5665@gmail.com", "123123");
+      final userPayload = await userRepository
+          .findOrCreateUserPayloadByUID(userCredential.user!.uid);
+      emit(AuthState.authSuccess(userCredential.user, userPayload));
+    } catch (e) {
+      emit(AuthState.authFailed(_processSignInError(e)));
+    }
+  }
+
   Future<void> signInWithEmailAndPassword(
       final String email, final String password) async {
     emit(AuthState.authLoading());

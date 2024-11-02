@@ -3,9 +3,7 @@ import "dart:convert";
 import "package:auto_route/auto_route.dart";
 import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
-import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_renderer.dart";
-import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_state.dart";
 import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_state.dart";
 import "package:uuid/uuid.dart";
@@ -75,7 +73,6 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
                   child: SingleChildScrollView(
                     child: MenuRendererWidget(
                       menu: state.activeMenu!.menu,
-                      addDish: () => {},
                     ),
                   ),
                 ),

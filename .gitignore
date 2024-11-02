@@ -56,3 +56,4 @@ app.*.map.json
 /assets/.env
 /dotenv.env
 /report.xml
+.env

@@ -96,6 +96,82 @@ class _AdminScreenState
     );
   }
 
+  Widget buildBlueFilledButton(
+          {required final Widget child,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final EdgeInsetsGeometry? padding =
+              const EdgeInsets.symmetric(horizontal: 4.0),
+          final bool wrapContent = false}) =>
+      SizedBox(
+        height: wrapContent ? null : 44,
+        child: ElevatedButton(
+          onPressed: enabled ? onPressed : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: enabled
+                ? AppColors.blueAccent
+                : AppColors.blueAccent
+                    .withOpacity(0.5), // Dimmed color when disabled
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: child,
+          ),
+        ),
+      );
+
+  Widget buildMenuItem({required final MenuPayload item}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: buildBlueFilledButton(
+          wrapContent: true,
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title,
+                      style: AppStyles.blueFilledButtonTextStyle,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          style: AppStyles.blueFilledButtonTextStyle,
+                          "Design Preset: ${item.menu.designPreset.name} Public id: ${item.publicId}",
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: AppColors.white,
+                  ),
+                  onPressed: () => cubit.deleteMenu(payload: item),
+                ),
+              ],
+            ),
+          ),
+          onPressed: () {
+            final router = AutoRouter.of(context);
+            // Use pushAndRemoveUntil with the root route
+            router.navigate(
+              PrivateMenuRoute(id: item.id),
+            );
+          }),
+    );
+  }
+
   Widget buildBody({required final AdminState state}) {
     final reachLimit = (state.items.length >= 3);
 
@@ -105,42 +181,18 @@ class _AdminScreenState
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             AppDesign.buildLogo(),
-            buildUserButton(state: state),
+            AppDesign.buildUserButton(context),
           ],
         ),
-        _buildDescription(),
+        buildDescription(),
         Column(
           children: state.items.map((item) {
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(item.title),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      "Design Preset: ${item.menu.designPreset.name} Public id: ${item.publicId}")
-                ],
-              ),
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.delete,
-                  color: AppColors.blueAccent,
-                ),
-                onPressed: () => cubit.deleteMenu(payload: item),
-              ),
-              onTap: () {
-               /* final router = AutoRouter.of(context);
-                router.push(
-                  PublicMenuRoute(id: item.publicId),
-                );*/
-                launchInternalPage(
-                    item.publicId, isNewTab: true
-                );
-              //  openLink()
-              },
-            );
+            return buildMenuItem(item: item);
+          }).map((item) {
+            return item;
           }).toList(),
         ),
+        SizedBox(height: 16.0),
         AppDesign.buildBlueOutlinedButton(
             child: reachLimit
                 ? Text(

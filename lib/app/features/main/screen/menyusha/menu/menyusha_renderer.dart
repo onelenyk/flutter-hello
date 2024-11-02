@@ -11,9 +11,7 @@ import "package:menyusha/app/common/hover_button.dart";
 import "package:menyusha/app/common/info_block.dart";
 import "package:menyusha/app/common/responsive_util.dart";
 import "package:markdown/markdown.dart" as md;
-import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_cubit.dart";
-import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_state.dart";
-import "package:uuid/uuid.dart";
+import "package:menyusha/app/features/main/screen/menyusha/a4_page_container.dart";
 
 import "../../../../../data/firebase/menu/menu_payload.dart";
 import "../../base/base_screen.dart";
@@ -25,25 +23,31 @@ class MenuRendererWidget extends StatelessWidget {
   const MenuRendererWidget({
     super.key,
     required this.menu,
-    required this.addDish,
   });
 
   final Menu menu;
 
-  final VoidCallback addDish;
-
-
   @override
   Widget build(final BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          buildTitle(),
-          SizedBox(height: 16),
-          buildDishGroupWidget(menu.groupedPositions),
-        ],
+    final theme =
+    MenuThemeManager.getTheme(menu.designPreset);
+
+    return SelectionArea(
+      child: SingleChildScrollView(
+        child: A4PageContainer(
+          color: theme.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                buildTitle(),
+                SizedBox(height: 16),
+                buildDishGroupWidget(menu.groupedPositions),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -95,7 +99,6 @@ class MenuRendererWidget extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: addDish,
               child: SizedBox(
                 width: 350,
                 height: 100,
@@ -245,68 +248,71 @@ class _MenuEditorState extends State<MenuEditorWidget> {
   Widget build(BuildContext context) {
     final theme = MenuThemeManager.getTheme(widget.menu.designPreset);
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          // Input field for JSON
-          Expanded(
-            child: TextField(
-              controller: _jsonController,
-              maxLines: null,
-              // Allows TextField to grow vertically
-              expands: true,
-              // Expands to fill the available height
-              textAlign: TextAlign.start,
+    return A4PageContainer(
+      color: theme.backgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Input field for JSON
+            Expanded(
+              child: TextField(
+                controller: _jsonController,
+                maxLines: null,
+                // Allows TextField to grow vertically
+                expands: true,
+                // Expands to fill the available height
+                textAlign: TextAlign.start,
 
-              style: theme.itemDescriptionStyle,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Edit Menu JSON',
+                style: theme.itemDescriptionStyle,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Edit Menu JSON',
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 16),
-          // Save and Cancel buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              HoverButton(
-                onTap: _handleCancel,
-                onDoubleTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: Text(
-                    "cancel",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFDFD3C3),
-                      fontSize: 16,
+            SizedBox(height: 16),
+            // Save and Cancel buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                HoverButton(
+                  onTap: _handleCancel,
+                  onDoubleTap: () {},
+                  child: const Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Text(
+                      "cancel",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFDFD3C3),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: 16),
-              HoverButton(
-                onTap: _handleSave,
-                onDoubleTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.all(4),
-                  child: Text(
-                    "Save",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFDFD3C3),
-                      fontSize: 16,
+                SizedBox(width: 16),
+                HoverButton(
+                  onTap: _handleSave,
+                  onDoubleTap: () {},
+                  child: const Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFDFD3C3),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

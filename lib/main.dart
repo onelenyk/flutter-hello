@@ -9,14 +9,16 @@ import "package:menyusha/firebase_options.dart";
 
 ///Public firebase
 late final FirebaseApp firebaseApp;
+
 ///Public firebase
 late final FirebaseAuth firebaseAuth;
-final bool isProduction = false;
+late final BuildConfig buildConfig;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   await environmentInit();
+  buildConfig = BuildConfig();
   firebaseApp = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -24,4 +26,8 @@ Future<void> main() async {
   firebaseAuth = FirebaseAuth.instanceFor(app: firebaseApp);
 
   runApp(RootComponent());
+}
+
+class BuildConfig {
+  final bool isProduction = false;
 }
