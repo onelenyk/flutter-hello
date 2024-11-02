@@ -4,7 +4,6 @@ import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 
 import "../../../../../data/firebase/menu/menu_payload.dart";
-import "../menu/menyusha_state.dart";
 
 class MenuThemeManager {
   static MenuTheme commonLightTheme() {

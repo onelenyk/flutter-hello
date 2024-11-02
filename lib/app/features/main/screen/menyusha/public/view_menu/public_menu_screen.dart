@@ -6,12 +6,16 @@ import "package:get_it/get_it.dart";
 import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_renderer.dart";
 import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_state.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/app_style.dart";
 import "package:uuid/uuid.dart";
 
 import "../../../base/base_screen.dart";
 import "../../../base/responsive_state.dart";
 import "../../a4_page_container.dart";
 import "../../theme/theme_manager.dart";
+
+import 'dart:html' as html;
+
 
 @RoutePage()
 class PublicMenuScreen extends StatefulWidget {
@@ -54,33 +58,137 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
       buildBody(state: state);
 
   Widget buildBody({required final PublicMenuState state}) {
-    if (state.activeMenu == null) {
-      return CircularProgressIndicator();
-    } else {
-      final theme =
-          MenuThemeManager.getTheme(state.activeMenu!.menu.designPreset);
+    Widget content;
 
-      return BaseScreen(
-          child: Container(
-        color: Colors.white,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    if (state.activeMenu == null) {
+      content = A4PageContainer(child: AppDesign.buildLogoLoader());
+    } else {
+      content = MenuRendererWidget(
+        menu: state.activeMenu!.menu,
+      );
+    }
+   return Container(child: content);
+    return Container();
+  }
+}
+
+class SkeletonLoader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              A4PageContainer(
-                color: theme.backgroundColor,
-                child: SelectionArea(
-                  child: SingleChildScrollView(
-                    child: MenuRendererWidget(
-                      menu: state.activeMenu!.menu,
-                    ),
-                  ),
-                ),
-              )
+              // Skeleton Logo
+              SkeletonWidget(
+                width: 350,
+                height: 100,
+                borderRadius: BorderRadius.circular(8.0),
+                animationType: AnimationType.blink,
+              ),
+              SizedBox(height: 16),
+
+              // Group 1 Header
+              SkeletonWidget(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 40,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              SizedBox(height: 15),
+
+              // Skeleton Items
+              for (int i = 0; i < 2; i++) ...[
+                SkeletonItem(),
+              ],
+
+              // Group 2 Header
+              SkeletonWidget(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 40,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              SizedBox(height: 15),
+
+              // Skeleton Items
+              for (int i = 0; i < 3; i++) ...[
+                SkeletonItem(),
+              ],
+
+              SizedBox(height: 20),
             ],
           ),
         ),
-      ));
-    }
+      ),
+    );
+}
+
+class SkeletonWidget extends StatelessWidget {
+  final double width;
+  final double height;
+  final BorderRadius borderRadius;
+  final AnimationType animationType;
+
+  const SkeletonWidget({
+    required this.width,
+    required this.height,
+    required this.borderRadius,
+    this.animationType = AnimationType.loading,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 1300),
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: borderRadius,
+      ),
+      child: animationType == AnimationType.blink
+          ? Opacity(
+              opacity: 0.8,
+              child: Container(color: Colors.grey[200]),
+            )
+          : null,
+    );
   }
+}
+
+class SkeletonItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SkeletonWidget(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 20,
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          SizedBox(height: 10),
+          SkeletonWidget(
+            width: MediaQuery.of(context).size.width,
+            height: 15,
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          SizedBox(height: 8),
+          SkeletonWidget(
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: 20,
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+enum AnimationType {
+  loading,
+  blink,
 }
