@@ -104,7 +104,8 @@ class AppDesign {
     required final Widget child,
     required final VoidCallback onPressed,
     final bool enabled = true,
-    final EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 4.0),
+    final EdgeInsetsGeometry? padding =
+        const EdgeInsets.symmetric(horizontal: 4.0),
     final Color backgroundColor = AppColors.blueAccent,
     final Color backgroundColorInactive = AppColors.blueAccent,
   }) =>
@@ -115,7 +116,9 @@ class AppDesign {
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             side: BorderSide(
-                color: enabled ? backgroundColor : backgroundColorInactive   .withOpacity(0.5),
+                color: enabled
+                    ? backgroundColor
+                    : backgroundColorInactive.withOpacity(0.5),
                 width: 2.0),
             // Beige border color
             shape: RoundedRectangleBorder(
@@ -129,12 +132,12 @@ class AppDesign {
         ),
       );
 
-
   static Widget buildBlueOutlinedButton({
     required final Widget child,
     required final VoidCallback onPressed,
     final bool enabled = true,
-    final EdgeInsetsGeometry? padding = const EdgeInsets.symmetric(horizontal: 4.0),
+    final EdgeInsetsGeometry? padding =
+        const EdgeInsets.symmetric(horizontal: 4.0),
   }) =>
       SizedBox(
         height: 44,
@@ -143,7 +146,9 @@ class AppDesign {
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             side: BorderSide(
-                color: enabled ? AppColors.blueAccent : AppColors.blueAccent   .withOpacity(0.5),
+                color: enabled
+                    ? AppColors.blueAccent
+                    : AppColors.blueAccent.withOpacity(0.5),
                 width: 2.0),
             // Beige border color
             shape: RoundedRectangleBorder(
@@ -161,7 +166,6 @@ class AppDesign {
     required final Widget child,
     required final VoidCallback onPressed,
     final bool enabled = true,
-
     final EdgeInsetsGeometry? padding =
         const EdgeInsets.symmetric(horizontal: 4.0),
   }) =>
@@ -170,7 +174,9 @@ class AppDesign {
         child: ElevatedButton(
           onPressed: enabled ? onPressed : null,
           style: ElevatedButton.styleFrom(
-            backgroundColor: enabled ? AppColors.beigeAccent : AppColors.beigeAccent   .withOpacity(0.5),
+            backgroundColor: enabled
+                ? AppColors.beigeAccent
+                : AppColors.beigeAccent.withOpacity(0.5),
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
