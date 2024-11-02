@@ -46,5 +46,5 @@ class _MobileEraScreenState
 
 
   Widget buildBody({required final NullState state}) =>
-      BaseScreen(child: AutoRouter());
+      BaseEntryPointScreen(child: BaseScreen(child: AutoRouter(), backgroundColor: Colors.transparent,));
 }

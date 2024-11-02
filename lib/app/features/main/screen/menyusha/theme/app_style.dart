@@ -6,7 +6,47 @@ import "package:google_fonts/google_fonts.dart";
 import "../../../../../root/app_router.dart";
 import "../login/auth_cubit.dart";
 
+class ImageLoader extends StatefulWidget {
+  @override
+  _ImageLoaderState createState() => _ImageLoaderState();
+}
+
+class _ImageLoaderState extends State<ImageLoader>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 750),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FadeTransition(
+        opacity: _controller,
+        child: AppDesign.buildLogo(),
+      ),
+    );
+  }
+}
+
 class AppDesign {
+  static Widget buildLogoLoader() => Container(
+      width: 270,
+      height: 130,
+      child: ImageLoader());
+
   static Widget buildLogo() => Image.asset(
         'assets/images/localmenu.png',
         width: 270,
@@ -31,7 +71,6 @@ class AppDesign {
           );
         });
   }
-
 
   static Widget buildBlueFilledButton({
     required final Widget child,
