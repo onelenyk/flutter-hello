@@ -66,24 +66,6 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
   ) =>
       buildBody(state: state);
 
-  Widget buildUserButton() {
-    final getIt = GetIt.instance;
-    final cubit = getIt.get<AuthenticationCubit>();
-    final state = cubit.state;
-
-    return AppDesign.buildBlueOutlinedButton(
-        child: Text(
-          state.login ?? "",
-          style: AppStyles.blueOutlinedButtonTextStyle,
-        ),
-        onPressed: () {
-          cubit.signOut();
-          final router = AutoRouter.of(context);
-          router.navigate(
-            MobileEraRoute(),
-          );
-        });
-  }
 
   Widget buildDescription() {
     return Row(
@@ -201,36 +183,31 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
     }
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              AppDesign.buildBeigeFilledButton(
-                  child: Text(
-                    "VIEW",
-                    style: AppStyles.blueFilledButtonTextStyle,
-                  ),
-                  enabled: state.viewMode != Mode.VIEW,
-                  onPressed: () {
-                    cubit.switchMode();
-                  }),
-              const SizedBox(width: 16.0),
-              AppDesign.buildBlueFilledButton(
-                  child: Text(
-                    "EDIT JSON",
-                    style: AppStyles.blueFilledButtonTextStyle,
-                  ),
-                  enabled: state.viewMode != Mode.EDIT_JSON,
-
-                  onPressed: () {
-                    cubit.switchMode();
-                  }),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            AppDesign.buildBlueFilledButton(
+                child: Text(
+                  "VIEW",
+                  style: AppStyles.blueFilledButtonTextStyle,
+                ),
+                enabled: state.viewMode != Mode.VIEW,
+                onPressed: () {
+                  cubit.switchMode();
+                }),
+            const SizedBox(width: 8.0),
+            AppDesign.buildBlueFilledButton(
+                child: Text(
+                  "EDIT JSON",
+                  style: AppStyles.blueFilledButtonTextStyle,
+                ),
+                enabled: state.viewMode != Mode.EDIT_JSON,
+                onPressed: () {
+                  cubit.switchMode();
+                }),
+          ],
         ),
-        SizedBox(height: 16.0),
-
+        SizedBox(height: 8.0),
         widget,
       ],
     );
@@ -252,7 +229,7 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
           state.activeMenu != null
               ? buildMenuItem(item: state.activeMenu!)
               : Container(),
-          SizedBox(height: 16.0),
+          SizedBox(height: 8.0),
           state.activeMenu != null ? buildItemBody(state: state) : Container(),
         ],
       ),

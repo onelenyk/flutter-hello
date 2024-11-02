@@ -88,20 +88,10 @@
                         })
                         .then(function (appRunner) {
                             appRunner.runApp();
+                            // Remove the loading image after the app has started
+                            loading.remove();
                         });
                 },
-            })
-            .then(function (engineInitializer) {
-                return engineInitializer.initializeEngine();
-            })
-            .then(function (appRunner) {
-                return appRunner.runApp();
-            })
-            .then(function () {
-                // Adjust timing as needed
-                window.setTimeout(function () {
-                    loading.remove();
-                }, 200);
             });
     });
 </script>
