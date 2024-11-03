@@ -32,17 +32,13 @@ class ListMenuCubit extends Cubit<ListMenuState> {
     // initialize();
     authorizationCubit.stream.listen((final authorizationState) async {
       if (authorizationState is AuthLoading) {
-
       } else if (authorizationState is AuthInitial) {
-
       } else if (authorizationState is AuthFailed) {
-
       } else if (authorizationState is AuthSuccess) {
         await listenUserItems(authorizationState.userPayload!);
       } else {}
     });
   }
-
 
   Future<void> signOut() async => authorizationCubit.signOut();
 

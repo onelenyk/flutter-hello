@@ -35,22 +35,46 @@ class _ImageLoaderState extends State<ImageLoader>
     return Center(
       child: FadeTransition(
         opacity: _controller,
-        child: AppDesign.buildLogo(),
+        child: AppDesign.buildLogo(context),
       ),
     );
   }
 }
 
 class AppDesign {
-  static Widget buildLogoLoader() => Container(
-      width: 270,
-      height: 130,
-      child: ImageLoader());
+  static Widget buildLogoLoader() =>
+      Container(width: 270, height: 130, child: ImageLoader());
 
-  static Widget buildLogo() => Image.asset(
-        'assets/images/localmenu.png',
-        width: 270,
-        height: 130,
+  static Widget buildLogoSmall(BuildContext context) => GestureDetector(
+        onTap: () {
+          final router = AutoRouter.of(context);
+          router.navigate(HelloRoute());
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: SizedBox(
+            height: 20,
+            child: Image.asset(
+              'assets/images/localmenu.png',
+            ),
+          ),
+        ),
+      );
+
+  static Widget buildLogo(BuildContext context) => GestureDetector(
+        onTap: () {
+          final router = AutoRouter.of(context);
+          router.navigate(HelloRoute());
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: SizedBox(
+            height: 44,
+            child: Image.asset(
+              'assets/images/localmenu.png',
+            ),
+          ),
+        ),
       );
 
   static Widget buildUserButton(BuildContext context) {
@@ -297,6 +321,13 @@ class AppStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.black,
+    height: 1.4,
+  );
+
+  static final TextStyle body3Style = GoogleFonts.openSans(
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    color: AppColors.blueAccent,
     height: 1.4,
   );
   static final TextStyle body2Style = GoogleFonts.openSans(

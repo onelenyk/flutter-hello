@@ -73,14 +73,13 @@ class _HelloScreenState
 
   Widget buildBody() {
     return Container(
-      color: Colors.white,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AppDesign.buildLogo(),
+              AppDesign.buildLogo(context),
               const SizedBox(height: 16.0),
               _buildTextSection(),
               const SizedBox(height: 16.0),
