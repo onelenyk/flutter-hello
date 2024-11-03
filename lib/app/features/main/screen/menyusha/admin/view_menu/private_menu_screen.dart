@@ -195,6 +195,15 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
             },
           );
         }
+      case Mode.EDIT_UI:
+        {
+          widget = MenuEditorWidget(
+            menu: state.activeMenu!.menu,
+            onSave: (menu) {
+              cubit.saveMenu(menu: menu);
+            },
+          );
+        }
     }
     return Column(
       children: [
@@ -203,7 +212,7 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
           children: [
             AppDesign.buildBlueFilledButton(
                 child: Text(
-                  "VIEW",
+                  "PREVIEW",
                   style: AppStyles.blueFilledButtonTextStyle,
                 ),
                 enabled: state.viewMode != Mode.VIEW,
@@ -220,8 +229,19 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
                 onPressed: () {
                   cubit.switchMode();
                 }),
+            const SizedBox(width: 8.0),
+            AppDesign.buildBlueFilledButton(
+                child: Text(
+                  "EDIT UI",
+                  style: AppStyles.blueFilledButtonTextStyle,
+                ),
+                enabled: state.viewMode != Mode.EDIT_UI,
+                onPressed: () {
+                  cubit.switchMode();
+                }),
           ],
         ),
+        buildDescriptionPreview(),
         SizedBox(height: 8.0),
         widget,
       ],
@@ -235,7 +255,7 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppDesign.buildLogo(),
+              AppDesign.buildLogo(context),
               AppDesign.buildUserButton(context),
             ],
           ),
