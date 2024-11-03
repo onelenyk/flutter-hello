@@ -33,9 +33,9 @@ class MenuRendererWidget extends StatelessWidget {
     MenuThemeManager.getTheme(menu.designPreset);
 
     return SelectionArea(
-      child: SingleChildScrollView(
-        child: A4PageContainer(
-          color: theme.backgroundColor,
+      child: A4PageContainer(
+        color: theme.backgroundColor,
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(

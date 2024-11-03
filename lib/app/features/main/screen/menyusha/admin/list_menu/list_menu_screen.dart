@@ -162,7 +162,7 @@ class _ListMenuScreenState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppDesign.buildLogo(),
+            AppDesign.buildLogo(context),
             AppDesign.buildUserButton(context),
           ],
         ),
@@ -188,13 +188,10 @@ class _ListMenuScreenState
                   ),
             enabled: !reachLimit,
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => CreateMenuPayloadDialog(
-                  onCreate: (newPayload) {
-                    cubit.createNewMenu(payload: newPayload);
-                  },
-                ),
+              final router = AutoRouter.of(context);
+              // Use pushAndRemoveUntil with the root route
+              router.navigate(
+                CreateMenuRoute(),
               );
             })
       ],

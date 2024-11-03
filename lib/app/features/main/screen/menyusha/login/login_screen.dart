@@ -124,7 +124,7 @@ class _LoginScreenState
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppDesign.buildLogo(),
+          AppDesign.buildLogo(context),
           buildLoginFormBody(context: context, state: state),
           SizedBox(height: 16),
           DividerWidget(width: 200, height: 1),

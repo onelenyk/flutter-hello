@@ -16,7 +16,6 @@ import "../../theme/theme_manager.dart";
 
 import 'dart:html' as html;
 
-
 @RoutePage()
 class PublicMenuScreen extends StatefulWidget {
   PublicMenuScreen({super.key, @PathParam('id') required this.id});
@@ -58,70 +57,91 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
       buildBody(state: state);
 
   Widget buildBody({required final PublicMenuState state}) {
-    Widget content;
-
     if (state.activeMenu == null) {
-      content = A4PageContainer(child: AppDesign.buildLogoLoader());
+      return A4PageContainer(child: AppDesign.buildLogoLoader());
     } else {
-      content = MenuRendererWidget(
-        menu: state.activeMenu!.menu,
+      final theme =
+          MenuThemeManager.getTheme(state.activeMenu!.menu.designPreset);
+
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            A4PageWidthContainer(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Row(
+                  children: [
+                    AppDesign.buildLogoSmall(context),
+                  ],
+                ),
+              ),
+              color: theme.backgroundColor,
+            ),
+            Container(
+                child: Title(
+              title: state.activeMenu!.title,
+              color: Colors.black,
+              child: MenuRendererWidget(
+                menu: state.activeMenu!.menu,
+              ),
+            )),
+          ],
+        ),
       );
     }
-   return Container(child: content);
-    return Container();
   }
 }
 
 class SkeletonLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Skeleton Logo
-              SkeletonWidget(
-                width: 350,
-                height: 100,
-                borderRadius: BorderRadius.circular(8.0),
-                animationType: AnimationType.blink,
-              ),
-              SizedBox(height: 16),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Skeleton Logo
+                SkeletonWidget(
+                  width: 350,
+                  height: 100,
+                  borderRadius: BorderRadius.circular(8.0),
+                  animationType: AnimationType.blink,
+                ),
+                SizedBox(height: 16),
 
-              // Group 1 Header
-              SkeletonWidget(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: 40,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              SizedBox(height: 15),
+                // Group 1 Header
+                SkeletonWidget(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 40,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                SizedBox(height: 15),
 
-              // Skeleton Items
-              for (int i = 0; i < 2; i++) ...[
-                SkeletonItem(),
+                // Skeleton Items
+                for (int i = 0; i < 2; i++) ...[
+                  SkeletonItem(),
+                ],
+
+                // Group 2 Header
+                SkeletonWidget(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 40,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                SizedBox(height: 15),
+
+                // Skeleton Items
+                for (int i = 0; i < 3; i++) ...[
+                  SkeletonItem(),
+                ],
+
+                SizedBox(height: 20),
               ],
-
-              // Group 2 Header
-              SkeletonWidget(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: 40,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              SizedBox(height: 15),
-
-              // Skeleton Items
-              for (int i = 0; i < 3; i++) ...[
-                SkeletonItem(),
-              ],
-
-              SizedBox(height: 20),
-            ],
+            ),
           ),
         ),
-      ),
-    );
+      );
 }
 
 class SkeletonWidget extends StatelessWidget {

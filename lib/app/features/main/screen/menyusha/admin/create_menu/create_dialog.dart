@@ -78,7 +78,7 @@ class _CreateMenuPayloadDialogState extends State<CreateMenuPayloadDialog> {
                   return ListTile(
                     title: Text(pos.title),
                     subtitle:
-                    Text("Group: ${pos.group}, Price: \$${pos.price}"),
+                        Text("Group: ${pos.group}, Price: \$${pos.price}"),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () => setState(() => positions.remove(pos)),
@@ -181,6 +181,198 @@ class _CreateMenuPayloadDialogState extends State<CreateMenuPayloadDialog> {
             child: Text('Add Position'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CreateMenuPayloadWidget extends StatefulWidget {
+  final Function(MenuPayload) onCreate;
+
+  const CreateMenuPayloadWidget({Key? key, required this.onCreate})
+      : super(key: key);
+
+  @override
+  _CreateMenuPayloadWidgetState createState() =>
+      _CreateMenuPayloadWidgetState();
+}
+
+class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController titleSrcController = TextEditingController();
+  final TextEditingController publicIdController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
+
+  DesignPreset selectedPreset = DesignPreset.BANDANA;
+  List<Position> positions = [];
+
+  bool showPositionForm = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Text(
+            'Create New MenuPayload',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          TextField(
+            controller: titleController,
+            decoration: InputDecoration(labelText: 'Title'),
+          ),
+          TextField(
+            controller: publicIdController,
+            decoration: InputDecoration(labelText: 'Public ID'),
+          ),
+          TextField(
+            controller: userIdController,
+            decoration: InputDecoration(labelText: 'User ID'),
+          ),
+          TextField(
+            controller: titleSrcController,
+            decoration: InputDecoration(labelText: 'Image Title Link'),
+          ),
+          DropdownButton<DesignPreset>(
+            value: selectedPreset,
+            onChanged: (preset) {
+              setState(() {
+                selectedPreset = preset!;
+              });
+            },
+            items: DesignPreset.values.map((preset) {
+              return DropdownMenuItem(
+                value: preset,
+                child: Text(preset.name),
+              );
+            }).toList(),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                showPositionForm = true;
+              });
+            },
+            child: Text('Add Position'),
+          ),
+          if (showPositionForm) _positionForm(),
+          Column(
+            children: positions.map((pos) {
+              return ListTile(
+                title: Text(pos.title),
+                subtitle: Text("Group: ${pos.group}, Price: \$${pos.price}"),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => setState(() => positions.remove(pos)),
+                ),
+              );
+            }).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  // Handle cancel action, e.g., clear fields or navigate back
+                },
+                child: Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final newPayload = MenuPayload(
+                    id: "",
+                    publicId: publicIdController.text,
+                    userId: userIdController.text,
+                    title: titleController.text,
+                    menu: Menu(
+                      designPreset: selectedPreset,
+                      titleSrc: titleSrcController.text,
+                      positions: positions,
+                    ),
+                  );
+                  widget.onCreate(newPayload);
+                  // Optionally clear fields after creation
+                },
+                child: Text('Create'),
+              ),
+            ],
+          ),
+
+        ],
+      ),
+    );
+  }
+
+  Widget _positionForm() {
+    final TextEditingController groupController = TextEditingController();
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
+    final TextEditingController priceController = TextEditingController();
+    final TextEditingController outputController = TextEditingController();
+
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Text(
+              'Add Position',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: groupController,
+              decoration: InputDecoration(labelText: 'Group'),
+            ),
+            TextField(
+              controller: titleController,
+              decoration: InputDecoration(labelText: 'Title'),
+            ),
+            TextField(
+              controller: descriptionController,
+              decoration: InputDecoration(labelText: 'Description'),
+            ),
+            TextField(
+              controller: priceController,
+              decoration: InputDecoration(labelText: 'Price'),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+            ),
+            TextField(
+              controller: outputController,
+              decoration: InputDecoration(labelText: 'Output'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      showPositionForm = false;
+                    });
+                  },
+                  child: Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    final newPosition = Position(
+                      id: UniqueKey().toString(),
+                      group: groupController.text,
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      price: double.parse(priceController.text),
+                      output: outputController.text,
+                    );
+                    setState(() {
+                      positions.add(newPosition);
+                      showPositionForm = false;
+                    });
+                  },
+                  child: Text('Add'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

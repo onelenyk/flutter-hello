@@ -59,9 +59,12 @@ class FirestoreRepository<T extends BaseModel> {
   }
 
   // Update an item
-  Future<void> updateItem(T item) async {
+  Future<T?> updateItem(T item) async {
     try {
-      await collection.doc(item.id).set(item);
+      final r = await collection.doc(item.id);
+
+      await r.set(item);
+      await getItem(r.id);
     } catch (e) {
       print("Error updating item: $e ${item.toJson()}");
     }

@@ -34,7 +34,7 @@ class MenuPayloadRepository extends FirestoreRepository<MenuPayload> {
 
   // Function to create a new MenuPayload
   Future<MenuPayload?> createMenu(MenuPayload payload) async => createItem(payload);
-  Future<void> updateMenu(MenuPayload payload) async => updateItem(payload);
+  Future<MenuPayload?> updateMenu(MenuPayload payload) async => updateItem(payload);
   Future<void> deleteMenu(MenuPayload payload) async => deleteItem(payload.id);
 
   // Method to get a single item by publicId

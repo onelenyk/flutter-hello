@@ -26,7 +26,9 @@ class PrivateMenuState {
 
 enum Mode {
   VIEW,
-  EDIT_JSON;
+  EDIT_JSON,
+  EDIT_UI,
+  ;
 
   String toJson() => name;
   // Convert string back to enum

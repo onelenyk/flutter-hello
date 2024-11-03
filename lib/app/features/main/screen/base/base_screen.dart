@@ -31,18 +31,19 @@ class BaseEntryPointScreen extends StatelessWidget {
   final Color backgroundColor;
 
   @override
-  Widget build(final BuildContext context) => Scaffold(
-    body: Stack(
-      children: [
-        Container(
-          child: Center(child: Container(
-              child: AppDesign.buildLogo())),
-        ),
-        Container(
-          child: child,
-        ),
-      ],
+  Widget build(final BuildContext context) => Container(
+    color: backgroundColor,
+    child: Scaffold(
+      body: Stack(
+        children: [
+          Center(child: Container(
+              child: AppDesign.buildLogo(context))),
+          Container(
+            child: child,
+          ),
+        ],
+      ),
+      backgroundColor: backgroundColor,
     ),
-    backgroundColor: backgroundColor,
   );
 }

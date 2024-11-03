@@ -64,7 +64,7 @@ class _RegistrationScreenState
       color: Colors.white, child: Center(child:Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      AppDesign.buildLogo(),
+      AppDesign.buildLogo(context),
       buildLoginFormBody(context: context, state: state),
       SizedBox(height: 16),
       DividerWidget(width: 200, height: 1),

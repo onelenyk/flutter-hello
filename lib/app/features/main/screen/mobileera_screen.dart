@@ -13,38 +13,17 @@ import "base/responsive_state.dart";
 class MobileEraScreen extends StatefulWidget {
   MobileEraScreen({super.key});
 
-  final getIt = GetIt.instance;
-  late final NullCubit cubit = NullCubit();
-
   @override
-  _MobileEraScreenState createState() => _MobileEraScreenState(cubit);
+  _MobileEraScreenState createState() => _MobileEraScreenState();
 }
 
-class _MobileEraScreenState
-    extends ResponsiveState<MobileEraScreen, NullState, NullCubit> {
-  _MobileEraScreenState(super.cubit);
+class _MobileEraScreenState extends State<MobileEraScreen> {
 
   @override
-  void onStateChange(
-    final BuildContext context,
-    final NullState state,
-  ) {}
-
-  @override
-  Widget buildDesktopLayout(
-    final BuildContext context,
-    final NullState state,
-  ) =>
-      buildBody(state: state);
-
-  @override
-  Widget buildMobileLayout(
-    final BuildContext context,
-    final NullState state,
-  ) =>
-      buildBody(state: state);
-
-
-  Widget buildBody({required final NullState state}) =>
-      BaseEntryPointScreen(child: BaseScreen(child: AutoRouter(), backgroundColor: Colors.transparent,));
+  Widget build(final BuildContext context) => const BaseEntryPointScreen(
+        child: BaseScreen(
+          child: AutoRouter(),
+          backgroundColor: Colors.white,
+        ),
+      );
 }

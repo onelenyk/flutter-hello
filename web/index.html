@@ -88,9 +88,12 @@
                         })
                         .then(function (appRunner) {
                             appRunner.runApp();
-                            // Remove the loading image after the app has started
-                            loading.remove();
-                        });
+                        })
+                        .then(function () {
+                          window.setTimeout(function () {
+                           loading.remove();
+                           }, 600);
+                           });
                 },
             });
     });

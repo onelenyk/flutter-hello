@@ -148,6 +148,35 @@ class AdminRouteArgs {
 }
 
 /// generated route for
+/// [CreateMenuScreen]
+class CreateMenuRoute extends PageRouteInfo<CreateMenuRouteArgs> {
+  CreateMenuRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CreateMenuRoute.name,
+          args: CreateMenuRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateMenuRoute';
+
+  static const PageInfo<CreateMenuRouteArgs> page =
+      PageInfo<CreateMenuRouteArgs>(name);
+}
+
+class CreateMenuRouteArgs {
+  const CreateMenuRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'CreateMenuRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
 /// [HelloScreen]
 class HelloRoute extends PageRouteInfo<HelloRouteArgs> {
   HelloRoute({
@@ -229,63 +258,6 @@ class LoginRouteArgs {
   @override
   String toString() {
     return 'LoginRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [MenuScreen]
-class MenuRoute extends PageRouteInfo<MenuRouteArgs> {
-  MenuRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
-          MenuRoute.name,
-          args: MenuRouteArgs(key: key),
-          initialChildren: children,
-        );
-
-  static const String name = 'MenuRoute';
-
-  static const PageInfo<MenuRouteArgs> page = PageInfo<MenuRouteArgs>(name);
-}
-
-class MenuRouteArgs {
-  const MenuRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'MenuRouteArgs{key: $key}';
-  }
-}
-
-/// generated route for
-/// [MenyushaScreen]
-class MenyushaRoute extends PageRouteInfo<MenyushaRouteArgs> {
-  MenyushaRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
-          MenyushaRoute.name,
-          args: MenyushaRouteArgs(key: key),
-          initialChildren: children,
-        );
-
-  static const String name = 'MenyushaRoute';
-
-  static const PageInfo<MenyushaRouteArgs> page =
-      PageInfo<MenyushaRouteArgs>(name);
-}
-
-class MenyushaRouteArgs {
-  const MenyushaRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'MenyushaRouteArgs{key: $key}';
   }
 }
 

@@ -66,6 +66,21 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
   ) =>
       buildBody(state: state);
 
+  Widget buildDescriptionPreview() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Text(
+            'Превью:',
+            style: AppStyles.body3Style,
+          ),
+        ),
+        const SizedBox(width: 8.0),
+      ],
+    );
+  }
 
   Widget buildDescription() {
     return Row(

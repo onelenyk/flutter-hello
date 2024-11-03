@@ -180,7 +180,7 @@ class _AdminScreenState
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppDesign.buildLogo(),
+            AppDesign.buildLogo(context),
             AppDesign.buildUserButton(context),
           ],
         ),
