@@ -29,6 +29,14 @@ abstract class _$AppRouter extends RootStackRouter {
         child: AdminScreen(key: args.key),
       );
     },
+    CreateMenuRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateMenuRouteArgs>(
+          orElse: () => const CreateMenuRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CreateMenuScreen(key: args.key),
+      );
+    },
     HelloRoute.name: (routeData) {
       final args = routeData.argsAs<HelloRouteArgs>(
           orElse: () => const HelloRouteArgs());
@@ -53,7 +61,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: LoginScreen(key: args.key),
       );
     },
-
     MobileEraRoute.name: (routeData) {
       final args = routeData.argsAs<MobileEraRouteArgs>(
           orElse: () => const MobileEraRouteArgs());

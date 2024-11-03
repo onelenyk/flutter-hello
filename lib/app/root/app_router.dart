@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 
 import "../features/main/screen/menyusha/admin/admin_screen.dart";
 import "../features/main/screen/menyusha/admin/container/admin_container.dart";
+import "../features/main/screen/menyusha/admin/create_menu/create_menu_screen.dart";
 import "../features/main/screen/menyusha/admin/list_menu/list_menu_screen.dart";
 import "../features/main/screen/menyusha/admin/view_menu/private_menu_screen.dart";
 import "../features/main/screen/menyusha/hello/hello_screen.dart";
@@ -32,6 +33,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
                 path: "admin",
                 children: [
                   AutoRoute(page: ListMenuRoute.page, path: ""),
+                  AutoRoute(page: CreateMenuRoute.page, path: "create"),
                   AutoRoute(page: PrivateMenuRoute.page, path: ":id"),
                 ]),
             //
