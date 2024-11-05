@@ -7,6 +7,7 @@ import "package:menyusha/app/features/main/screen/menyusha/menu/menyusha_rendere
 import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_state.dart";
 import "package:menyusha/app/features/main/screen/menyusha/theme/app_style.dart";
+import "package:menyusha/app/root/app_router.dart";
 import "package:uuid/uuid.dart";
 
 import "../../../base/base_screen.dart";
@@ -40,7 +41,14 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
   void onStateChange(
     final BuildContext context,
     final PublicMenuState state,
-  ) {}
+  ) {
+    if (state.menuLoadingFailed) {
+      final router = AutoRouter.of(context);
+      router.navigate(
+        NotFoundRoute(),
+      );
+    }
+  }
 
   @override
   Widget buildDesktopLayout(
@@ -57,11 +65,11 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
       buildBody(state: state);
 
   Widget buildBody({required final PublicMenuState state}) {
-    if (state.activeMenu == null) {
+    if (state.loadedMenu == null) {
       return A4PageContainer(child: AppDesign.buildLogoLoader());
     } else {
       final theme =
-          MenuThemeManager.getTheme(state.activeMenu!.menu.designPreset);
+          MenuThemeManager.getTheme(state.loadedMenu!.menu.designPreset);
 
       return SingleChildScrollView(
         child: Column(
@@ -79,10 +87,10 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
             ),
             Container(
                 child: Title(
-              title: state.activeMenu!.title,
+              title: state.loadedMenu!.title,
               color: Colors.black,
               child: MenuRendererWidget(
-                menu: state.activeMenu!.menu,
+                menu: state.loadedMenu!.menu,
               ),
             )),
           ],

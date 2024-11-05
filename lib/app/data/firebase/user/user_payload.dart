@@ -1,7 +1,8 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:uuid/uuid.dart";
 
-import "../../repository/base_model.dart";
+import "../repository/base_model.dart";
+
 
 class UserPayload implements BaseModel {
   UserPayload({

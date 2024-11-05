@@ -4,7 +4,9 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
 import "package:google_sign_in/google_sign_in.dart";
+import "package:menyusha/app/data/firebase/user/user_payload.dart";
 import "package:menyusha/app/data/firebase/user/user_payload_repository.dart";
+import "package:menyusha/app/data/firebase/user_manager.dart";
 
 import "../../../../../data/firebase/auth/auth_state.dart";
 
@@ -18,7 +20,10 @@ class AuthenticationCubit extends Cubit<AuthState> {
   late final UserPayloadRepository userRepository =
       getIt<UserPayloadRepository>();
 
+  late final UserManager userManager = getIt<UserManager>();
+
   final FirebaseAuth _firebaseAuth;
+
   StreamSubscription<User?>? _authStateSubscription;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -34,10 +39,9 @@ class AuthenticationCubit extends Cubit<AuthState> {
         } else {
           // Optional: fetch or create user payload if needed
           final userPayload = await userRepository
-              .findOrCreateUserPayloadByUID(user!.uid);
+              .getUserByUID(user!.uid);
 
-          print("User is signed in!");
-          emit(AuthState.authSuccess(user, userPayload));
+          loginUser(user,userPayload!);
         }
       },
       onError: (final error) {
@@ -47,6 +51,11 @@ class AuthenticationCubit extends Cubit<AuthState> {
     );
   }
 
+  void loginUser(final User user, final UserPayload userPayload) {
+    print("User is signed in!");
+    userManager.saveUser(userPayload);
+    emit(AuthState.authSuccess(user, userPayload));
+  }
   // login and registration
 
   Future<void> typeEmail(final String value) async {
@@ -100,6 +109,7 @@ class AuthenticationCubit extends Cubit<AuthState> {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
+    await userManager.logout();
     emit(AuthState.authSignedOut()); // Emitting initial state after sign out
     switchLogin();
   }
@@ -127,7 +137,8 @@ class AuthenticationCubit extends Cubit<AuthState> {
       // Optional: fetch or create user payload if needed
       final userPayload = await userRepository
           .findOrCreateUserPayloadByUID(userCredential.user!.uid);
-      emit(AuthState.authSuccess(userCredential.user, userPayload));
+
+      loginUser(userCredential.user!,userPayload!);
     } catch (e) {
       emit(AuthState.authFailed(_processSignInError(e)));
     }
@@ -139,8 +150,8 @@ class AuthenticationCubit extends Cubit<AuthState> {
     try {
       final userCredential = await _signIn("lenyk5665@gmail.com", "123123");
       final userPayload = await userRepository
-          .findOrCreateUserPayloadByUID(userCredential.user!.uid);
-      emit(AuthState.authSuccess(userCredential.user, userPayload));
+          .getUserByUID(userCredential.user!.uid);
+      loginUser(userCredential.user!,userPayload!);
     } catch (e) {
       emit(AuthState.authFailed(_processSignInError(e)));
     }
@@ -152,8 +163,8 @@ class AuthenticationCubit extends Cubit<AuthState> {
     try {
       final userCredential = await _signIn(email, password);
       final userPayload = await userRepository
-          .findOrCreateUserPayloadByUID(userCredential.user!.uid);
-      emit(AuthState.authSuccess(userCredential.user, userPayload));
+          .getUserByUID(userCredential.user!.uid);
+      loginUser(userCredential.user!,userPayload!);
     } catch (e) {
       emit(AuthState.authFailed(_processSignInError(e)));
     }
@@ -167,7 +178,7 @@ class AuthenticationCubit extends Cubit<AuthState> {
 
        final userPayload = await userRepository
            .findOrCreateUserPayloadByUID(userCredential.user!.uid);
-      emit(AuthState.authSuccess(userCredential.user,userPayload ));
+      loginUser(userCredential.user!,userPayload!);
     } catch (e) {
       emit(AuthState.authFailed(_processSignInError(e)));
     }
@@ -179,8 +190,8 @@ class AuthenticationCubit extends Cubit<AuthState> {
     try {
       final userCredential = await _attemptRegister(email, password);
       final userPayload = await userRepository
-          .findOrCreateUserPayloadByUID(userCredential.user!.uid);
-      emit(AuthState.authSuccess(userCredential.user, userPayload));
+          .createUser(userCredential.user!.uid);
+      loginUser(userCredential.user!, userPayload!);
     } catch (e) {
       emit(AuthState.authFailed(_processSignInError(e)));
     }

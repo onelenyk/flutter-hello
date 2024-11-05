@@ -43,12 +43,12 @@ class _NotFoundScreenState
     children: [
       const Text(
         '404',
-        style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold, color: Colors.white),
+        style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold, color: Colors.black),
       ),
       const SizedBox(height: 16),
       const Text(
         'The page you are looking for does not exist.',
-        style: TextStyle(fontSize: 24, color: Colors.white),
+        style: TextStyle(fontSize: 24, color: Colors.black),
         textAlign: TextAlign.center,
 
       ),
@@ -56,7 +56,7 @@ class _NotFoundScreenState
       HoverButton(
         onTap: () {
           final router = AutoRouter.of(context);
-          router.popForced();
+          router.navigate(HelloRoute());
         },
         onDoubleTap: () {},
         child: Padding(

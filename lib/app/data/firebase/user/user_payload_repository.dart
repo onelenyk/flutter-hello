@@ -1,5 +1,7 @@
+import "package:firebase_auth/firebase_auth.dart";
 import "package:menyusha/app/data/firebase/user/user_payload.dart";
-import "package:menyusha/app/data/repository/firestore_repository.dart";
+
+import "../repository/firestore_repository.dart";
 
 class UserPayloadRepository extends FirestoreRepository<UserPayload> {
   UserPayloadRepository() : super("payloads", UserPayload.fromJson);

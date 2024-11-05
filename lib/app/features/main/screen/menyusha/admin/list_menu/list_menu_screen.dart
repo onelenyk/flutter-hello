@@ -115,24 +115,26 @@ class _ListMenuScreenState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.title,
-                      style: AppStyles.blueFilledButtonTextStyle,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          style: AppStyles.blueFilledButtonTextStyle,
-                          "Design Preset: ${item.menu.designPreset.name} Public id: ${item.publicId}",
-                        )
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.title,
+                        style: AppStyles.blueFilledButtonTextStyle,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            style: AppStyles.blueFilledButtonTextStyle,
+                            "Design Preset: ${item.menu.designPreset.name} Public id: ${item.publicId}",
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 IconButton(
                   icon: Icon(

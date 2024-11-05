@@ -195,49 +195,47 @@ class _LoginScreenState
                               ),
                             ))
                           : Text("Login",
-                              style: GoogleFonts.robotoMono(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2,
-                                  fontSize: 12)),
+                              style: AppStyles.blueFilledButtonTextStyle),
                     ),
                   ),
+                  wrapContent: true,
                   enabled: isEnabledLogin),
               SizedBox(height: 8.0),
               AppDesign.buildBeigeFilledButton(
-                onPressed: () {
-                  final router = AutoRouter.of(context);
-                  router.navigate(RegistrationRoute());
-                },
-                child: SizedBox(
-                  width: 150,
-                  child: Center(
-                    child: Text("Registration",
-                        style: AppStyles.beigeFilledButtonTextStyle),
+                  onPressed: () {
+                    final router = AutoRouter.of(context);
+                    router.navigate(RegistrationRoute());
+                  },
+                  child: SizedBox(
+                    width: 150,
+                    child: Center(
+                      child: Text("Registration",
+                          style: AppStyles.beigeFilledButtonTextStyle),
+                    ),
                   ),
-                ),
-              ),
+                  wrapContent: true),
               if (!buildConfig.isProduction)
                 Column(
                   children: [
                     SizedBox(height: 8.0),
                     AppDesign.buildBeigeFilledButton(
-                      onPressed: () {
-                        if (state is AuthInitial) {
-                          widget.cubit.adminSignIn(state.email, state.password);
-                          return;
-                        } else {
-                          return;
-                        }
-                      },
-                      child: SizedBox(
-                        width: 150,
-                        child: Center(
-                          child: Text("Admin sign in",
-                              style: AppStyles.beigeFilledButtonTextStyle),
+                        onPressed: () {
+                          if (state is AuthInitial) {
+                            widget.cubit
+                                .adminSignIn(state.email, state.password);
+                            return;
+                          } else {
+                            return;
+                          }
+                        },
+                        child: SizedBox(
+                          width: 150,
+                          child: Center(
+                            child: Text("Admin sign in",
+                                style: AppStyles.beigeFilledButtonTextStyle),
+                          ),
                         ),
-                      ),
-                    )
+                        wrapContent: true)
                   ],
                 )
             ],
@@ -254,15 +252,15 @@ class _LoginScreenState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppDesign.buildBlueFilledButton(
-              onPressed: widget.cubit.signInWithGoogle,
-              child: Center(
-                child: Icon(
-                  FontAwesomeIcons.google,
-                  color: Colors.white,
-                  size: 30,
+                onPressed: widget.cubit.signInWithGoogle,
+                child: Center(
+                  child: Icon(
+                    FontAwesomeIcons.google,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
-              ),
-            ),
+                wrapContent: true),
           ],
         ),
       );
