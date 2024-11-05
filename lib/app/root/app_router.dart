@@ -1,6 +1,8 @@
 import "package:auto_route/auto_route.dart";
 import "package:flutter/material.dart";
+import "package:get_it/get_it.dart";
 
+import "../data/firebase/user_manager.dart";
 import "../features/main/screen/menyusha/admin/admin_screen.dart";
 import "../features/main/screen/menyusha/admin/container/admin_container.dart";
 import "../features/main/screen/menyusha/admin/create_menu/create_menu_screen.dart";
@@ -17,6 +19,9 @@ part "app_router.gr.dart";
 
 @AutoRouterConfig(replaceInRouteName: "Screen,Route")
 class AppRouter extends _$AppRouter implements AutoRouteGuard {
+  final getIt = GetIt.instance;
+  late final UserManager userManager = getIt<UserManager>();
+
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
@@ -28,17 +33,14 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
             AutoRoute(page: RegistrationRoute.page, path: "registration"),
             AutoRoute(page: LoginRoute.page, path: "login"),
             //
-            AutoRoute(
-                page: AdminContainerRoute.page,
-                path: "admin",
-                children: [
-                  AutoRoute(page: ListMenuRoute.page, path: ""),
-                  AutoRoute(page: CreateMenuRoute.page, path: "create"),
-                  AutoRoute(page: PrivateMenuRoute.page, path: ":id"),
-                ]),
+            AutoRoute(page: AdminContainerRoute.page, path: "admin", children: [
+              AutoRoute(page: ListMenuRoute.page, path: ""),
+              AutoRoute(page: CreateMenuRoute.page, path: "create"),
+              AutoRoute(page: PrivateMenuRoute.page, path: ":id"),
+            ]),
             //
             AutoRoute(page: PublicMenuRoute.page, path: ":id"),
-
+            //
             AutoRoute(page: NotFoundRoute.page, path: "not-found"),
             RedirectRoute(path: "*", redirectTo: "not-found"),
           ],
@@ -46,14 +48,32 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
       ];
 
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    return resolver.next();
-    if (resolver.route.name == LoginRoute.name) {
+  void onNavigation(
+      final NavigationResolver resolver, final StackRouter router) {
+    final isUserLoggedIn = userManager.isUserLoggedInSync();
+
+    if (resolver.route.name == NotFoundRoute.name ||
+        resolver.route.name == MobileEraRoute.name ||
+        resolver.route.name == HelloRoute.name ||
+        resolver.route.name == PublicMenuRoute.name) {
       // we continue navigation
       resolver.next();
+    } else if (resolver.route.name == LoginRoute.name ||
+        resolver.route.name == RegistrationRoute.name) {
+      if (isUserLoggedIn) {
+        push(AdminContainerRoute());
+      } else {
+        resolver.next();
+      }
+    } else if ((resolver.route.name == AdminContainerRoute.name ||
+            resolver.route.name == ListMenuRoute.name ||
+            resolver.route.name == CreateMenuRoute.name ||
+            resolver.route.name == PrivateMenuRoute.name) &&
+        isUserLoggedIn) {
+      resolver.next();
     } else {
-      // else we navigate to the Login page so we get authenticateed
-      //  push(LoginRoute(onResult:(didLogin)=> resolver.next(didLogin)))
+      print(resolver.route.name);
+      push(NotFoundRoute());
     }
   }
 }

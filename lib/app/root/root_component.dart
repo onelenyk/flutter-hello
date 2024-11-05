@@ -1,27 +1,27 @@
 import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:menyusha/app/data/firebase/services/firestore_service.dart";
+import "package:menyusha/app/data/firebase/user/user_payload_repository.dart";
+import "package:menyusha/app/features/main/screen/menyusha/a4_page_container.dart";
+import "package:menyusha/app/features/main/screen/menyusha/admin/admin_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/create_menu/create_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/list_menu/list_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/view_menu/private_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/login/auth_cubit.dart";
-import "package:menyusha/app/data/repository/firestore_repository.dart";
-import "package:menyusha/app/data/services/firestore_service.dart";
+import "package:menyusha/app/features/main/screen/menyusha/public/view_menu/public_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/theme/app_style.dart";
 import "package:menyusha/app/root/app_router.dart";
 import "package:menyusha/main.dart";
 
-import "../data/firebase/user/user_payload_repository.dart";
-import "../features/main/screen/menyusha/a4_page_container.dart";
-import "../features/main/screen/menyusha/admin/admin_cubit.dart";
-import "../features/main/screen/menyusha/public/view_menu/public_menu_cubit.dart";
+import "../data/firebase/user_manager.dart";
 
 class RootComponent extends StatelessWidget {
-  final _router = AppRouter();
-  final getIt = GetIt.instance;
 
   RootComponent({super.key}) {
     getIt
+      ..registerSingleton<AppRouter>(AppRouter())
+      ..registerSingleton<UserManager>(UserManager())
       ..registerSingleton<FirestoreService>(FirestoreService())
       ..registerSingleton<AuthenticationCubit>(
           AuthenticationCubit(firebaseAuth))
@@ -38,6 +38,9 @@ class RootComponent extends StatelessWidget {
         UserPayloadRepository(),
       );
   }
+  final getIt = GetIt.instance;
+
+  late final _router = getIt.get<AppRouter>();
 
   ThemeData _buildTheme(final brightness) {
     final baseTheme = ThemeData(brightness: brightness);
@@ -51,12 +54,10 @@ class RootComponent extends StatelessWidget {
   Widget build(final BuildContext context) => MaterialApp.router(
         title: "Nazar Lenyk",
         theme: _buildTheme(Brightness.light),
-        routerConfig: _router.config(placeholder: (context) {
-          return A4PageContainer(
-            child: AppDesign.buildLogoLoader(),
+        routerConfig: _router.config(placeholder: (context) => A4PageContainer(
             color: Colors.red,
-          );
-        }),
+            child: AppDesign.buildLogoLoader(),
+          )),
         debugShowCheckedModeBanner: !buildConfig.isProduction,
       );
 }
