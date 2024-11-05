@@ -25,14 +25,6 @@ class CreateMenuCubit extends Cubit<CreateMenuState> {
 
   Future<void> initialize() async {
     // initialize();
-    authorizationCubit.stream.listen((final authorizationState) async {
-      if (authorizationState is AuthLoading) {
-      } else if (authorizationState is AuthInitial) {
-      } else if (authorizationState is AuthFailed) {
-      } else if (authorizationState is AuthSuccess) {
-        final userPayload = authorizationState.userPayload;
-      } else {}
-    });
   }
 
   Future<void> signOut() async => authorizationCubit.signOut();

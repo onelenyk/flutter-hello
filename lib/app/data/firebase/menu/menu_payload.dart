@@ -1,5 +1,5 @@
 
-import "package:menyusha/app/data/repository/base_model.dart";
+import "../repository/base_model.dart";
 
 enum DesignPreset {
   BANDANA,
