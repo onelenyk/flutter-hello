@@ -5,27 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000359">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000317">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: ./fruit_version_build.sh" time="0.029105">
+      <testcase classname="fastlane.lanes" name="1: ./fruit_version_build.sh" time="0.019917">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: flutter build web" time="65.663291">
+      <testcase classname="fastlane.lanes" name="2: flutter build web" time="43.912456">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: echo $(date +%s)$(openssl rand -hex 5)" time="0.025786">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: firebase hosting:channel:deploy 173040179062fc139d31" time="19.479632">
+      <testcase classname="fastlane.lanes" name="3: firebase deploy" time="13.974227">
         
       </testcase>
     

@@ -12,4 +12,6 @@ String? getGithubLogin() => dotenv.env["login"];
 
 String? getGithubRepository() => dotenv.env["repository"];
 
+bool getIsProduction() => dotenv.getBool("isProduction");
+
 

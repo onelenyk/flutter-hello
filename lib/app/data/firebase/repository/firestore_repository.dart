@@ -2,21 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
-import "package:menyusha/app/data/repository/base_model.dart";
-import "package:menyusha/app/data/services/firestore_service.dart";
+
+import "../services/firestore_service.dart";
+import "base_model.dart";
 
 class FirestoreRepository<T extends BaseModel> {
+  FirestoreRepository(final String collectionPath,
+      final T Function(Map<String, dynamic>) fromJson) {
+    collection = service.getCollection<T>(collectionPath, fromJson);
+  }
+
   final GetIt getIt = GetIt.instance;
 
   late final FirestoreService service = getIt.get<FirestoreService>();
   late final CollectionReference<T> collection;
 
-  FirestoreRepository(
-      String collectionPath, T Function(Map<String, dynamic>) fromJson) {
-    collection = service.getCollection<T>(collectionPath, fromJson);
-  }
-
-  Future<T?> createItem(T item) async {
+  Future<T?> createItem(final T item) async {
     try {
       final docRef = await collection.add(item);
       final tempItem = await getItem(docRef.id);
@@ -29,7 +30,7 @@ class FirestoreRepository<T extends BaseModel> {
   }
 
   // Read an item by ID
-  Future<T?> getItem(String id) async {
+  Future<T?> getItem(final String id) async {
     try {
       final snapshot = await collection.doc(id).get();
 
@@ -50,7 +51,7 @@ class FirestoreRepository<T extends BaseModel> {
       final snapshot = await collection.get();
 
       return snapshot.docs
-          .map((doc) => doc.data()!.copyWithId(id: doc.id) as T)
+          .map((final doc) => doc.data()!.copyWithId(id: doc.id) as T)
           .toList();
     } catch (e) {
       print("Error getting items: $e");
@@ -59,7 +60,7 @@ class FirestoreRepository<T extends BaseModel> {
   }
 
   // Update an item
-  Future<T?> updateItem(T item) async {
+  Future<T?> updateItem(final T item) async {
     try {
       final r = await collection.doc(item.id);
 
@@ -71,7 +72,7 @@ class FirestoreRepository<T extends BaseModel> {
   }
 
   // Delete an item
-  Future<void> deleteItem(String id) async {
+  Future<void> deleteItem(final String id) async {
     try {
       await collection.doc(id).delete();
     } catch (e) {
@@ -81,9 +82,9 @@ class FirestoreRepository<T extends BaseModel> {
 
   // Get a live stream of items
   Stream<List<T>> getItemsLive() {
-    return collection.snapshots().map((snapshot) {
+    return collection.snapshots().map((final snapshot) {
       return snapshot.docs
-          .map((doc) => doc.data()!.copyWithId(id: doc.id) as T)
+          .map((final doc) => doc.data()!.copyWithId(id: doc.id) as T)
           .toList();
     });
   }

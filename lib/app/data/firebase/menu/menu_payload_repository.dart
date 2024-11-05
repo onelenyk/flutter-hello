@@ -1,6 +1,7 @@
 import "package:menyusha/app/data/firebase/menu/menu_payload.dart";
 import "package:menyusha/app/data/firebase/user/user_payload.dart";
-import "package:menyusha/app/data/repository/firestore_repository.dart";
+
+import "../repository/firestore_repository.dart";
 
 class MenuPayloadRepository extends FirestoreRepository<MenuPayload> {
   MenuPayloadRepository() : super("menu_payload", MenuPayload.fromJson);
@@ -33,8 +34,12 @@ class MenuPayloadRepository extends FirestoreRepository<MenuPayload> {
   }
 
   // Function to create a new MenuPayload
-  Future<MenuPayload?> createMenu(MenuPayload payload) async => createItem(payload);
-  Future<MenuPayload?> updateMenu(MenuPayload payload) async => updateItem(payload);
+  Future<MenuPayload?> createMenu(MenuPayload payload) async =>
+      createItem(payload);
+
+  Future<MenuPayload?> updateMenu(MenuPayload payload) async =>
+      updateItem(payload);
+
   Future<void> deleteMenu(MenuPayload payload) async => deleteItem(payload.id);
 
   // Method to get a single item by publicId
@@ -57,5 +62,4 @@ class MenuPayloadRepository extends FirestoreRepository<MenuPayload> {
       return null;
     }
   }
-
 }

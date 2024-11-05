@@ -8,8 +8,9 @@ class PublicMenuCubit extends Cubit<PublicMenuState> {
   PublicMenuCubit(this.id)
       : super(
           PublicMenuState(
-            activeMenu: null,
-          ),
+              loadedMenu: null,
+              isInitialization: true,
+              menuLoadingFailed: false),
         ) {
     init(id);
   }
@@ -21,6 +22,13 @@ class PublicMenuCubit extends Cubit<PublicMenuState> {
 
   Future<void> init(final String id) async {
     final item = await repository.getItemByPublicId(id);
-    emit(state.copyWith(activeMenu: item));
+
+    if (item == null) {
+      emit(state.copyWith(
+          activeMenu: item, isInitialization: false, menuLoadingFailed: true));
+    } else {
+      emit(state.copyWith(
+          activeMenu: item, isInitialization: false, menuLoadingFailed: false));
+    }
   }
 }

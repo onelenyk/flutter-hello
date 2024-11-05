@@ -7,6 +7,8 @@ import "package:menyusha/app/env/environment.dart";
 import "package:menyusha/app/root/root_component.dart";
 import "package:menyusha/firebase_options.dart";
 
+import "app/BuildConfig.dart";
+
 ///Public firebase
 late final FirebaseApp firebaseApp;
 
@@ -18,7 +20,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   await environmentInit();
-  buildConfig = BuildConfig();
+  buildConfig = await loadBuildConfig();
   firebaseApp = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -28,6 +30,3 @@ Future<void> main() async {
   runApp(RootComponent());
 }
 
-class BuildConfig {
-  final bool isProduction = false;
-}

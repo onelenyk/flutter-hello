@@ -96,75 +96,16 @@ class AppDesign {
         });
   }
 
-  static Widget buildBlueFilledButton({
-    required final Widget child,
-    required final VoidCallback onPressed,
-    final bool enabled = true,
-    final EdgeInsetsGeometry? padding =
-        const EdgeInsets.symmetric(horizontal: 4.0),
-  }) =>
-      SizedBox(
-        height: 44,
-        child: ElevatedButton(
-          onPressed: enabled ? onPressed : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: enabled
-                ? AppColors.blueAccent
-                : AppColors.blueAccent
-                    .withOpacity(0.5), // Dimmed color when disabled
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
-      );
 
-  static Widget buildOutlinedButton({
-    required final Widget child,
-    required final VoidCallback onPressed,
-    final bool enabled = true,
-    final EdgeInsetsGeometry? padding =
-        const EdgeInsets.symmetric(horizontal: 4.0),
-    final Color backgroundColor = AppColors.blueAccent,
-    final Color backgroundColorInactive = AppColors.blueAccent,
-  }) =>
+  static Widget buildBlueOutlinedButton(
+          {required final Widget child,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final EdgeInsetsGeometry? padding =
+              const EdgeInsets.symmetric(horizontal: 8.0),
+          final bool wrapContent = true}) =>
       SizedBox(
-        height: 44,
-        child: OutlinedButton(
-          onPressed: enabled ? onPressed : null,
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            side: BorderSide(
-                color: enabled
-                    ? backgroundColor
-                    : backgroundColorInactive.withOpacity(0.5),
-                width: 2.0),
-            // Beige border color
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
-      );
-
-  static Widget buildBlueOutlinedButton({
-    required final Widget child,
-    required final VoidCallback onPressed,
-    final bool enabled = true,
-    final EdgeInsetsGeometry? padding =
-        const EdgeInsets.symmetric(horizontal: 4.0),
-  }) =>
-      SizedBox(
-        height: 44,
+        height: wrapContent ? null : 44,
         child: OutlinedButton(
           onPressed: enabled ? onPressed : null,
           style: OutlinedButton.styleFrom(
@@ -186,15 +127,43 @@ class AppDesign {
         ),
       );
 
-  static Widget buildBeigeFilledButton({
-    required final Widget child,
-    required final VoidCallback onPressed,
-    final bool enabled = true,
-    final EdgeInsetsGeometry? padding =
+  static Widget buildBlueFilledButton(
+      {required final Widget child,
+        required final VoidCallback onPressed,
+        final bool enabled = true,
+        final EdgeInsetsGeometry? padding =
         const EdgeInsets.symmetric(horizontal: 4.0),
-  }) =>
+        final bool wrapContent = true}) =>
       SizedBox(
-        height: 44,
+        height: wrapContent ? null : 44,
+        child: ElevatedButton(
+          onPressed: enabled ? onPressed : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: enabled
+                ? AppColors.blueAccent
+                : AppColors.blueAccent
+                .withOpacity(0.5), // Dimmed color when disabled
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: child,
+          ),
+        ),
+      );
+
+  static Widget buildBeigeFilledButton(
+          {required final Widget child,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final EdgeInsetsGeometry? padding =
+              const EdgeInsets.symmetric(horizontal: 4.0),
+          final bool wrapContent = true}) =>
+      SizedBox(
+        height: wrapContent ? null : 44,
         child: ElevatedButton(
           onPressed: enabled ? onPressed : null,
           style: ElevatedButton.styleFrom(
@@ -213,14 +182,14 @@ class AppDesign {
         ),
       );
 
-  static Widget buildBeigeOutlinedButton({
-    required final Widget child,
-    required final VoidCallback onPressed,
-    final EdgeInsetsGeometry? padding =
-        const EdgeInsets.symmetric(horizontal: 4.0),
-  }) =>
+  static Widget buildBeigeOutlinedButton(
+          {required final Widget child,
+          required final VoidCallback onPressed,
+          final EdgeInsetsGeometry? padding =
+              const EdgeInsets.symmetric(horizontal: 4.0),
+          final bool wrapContent = true}) =>
       SizedBox(
-        height: 44,
+        height: wrapContent ? null : 44,
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
