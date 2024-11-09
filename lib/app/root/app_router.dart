@@ -12,6 +12,8 @@ import "../features/main/screen/menyusha/hello/hello_screen.dart";
 import "../features/main/screen/menyusha/login/login_screen.dart";
 import "../features/main/screen/menyusha/login/registration_screen.dart";
 import "../features/main/screen/menyusha/public/view_menu/public_menu_screen.dart";
+import "../features/main/screen/menyusha/theme/preview_screen.dart";
+import "../features/main/screen/menyusha/theme/sample_screen.dart";
 import "../features/main/screen/mobileera_screen.dart";
 import "../features/main/screen/notfound/not_found.dart";
 
@@ -23,7 +25,8 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
   late final UserManager userManager = getIt<UserManager>();
 
   @override
-  List<AutoRoute> get routes => [
+  List<AutoRoute> get routes =>
+      [
         AutoRoute(
           page: MobileEraRoute.page,
           path: "/",
@@ -36,6 +39,8 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
             AutoRoute(page: AdminContainerRoute.page, path: "admin", children: [
               AutoRoute(page: ListMenuRoute.page, path: ""),
               AutoRoute(page: CreateMenuRoute.page, path: "create"),
+              AutoRoute(page: PreviewRoute.page, path: "preview"),
+              AutoRoute(page: SampleRoute.page, path: "sample"),
               AutoRoute(page: PrivateMenuRoute.page, path: ":id"),
             ]),
             //
@@ -48,8 +53,8 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
       ];
 
   @override
-  void onNavigation(
-      final NavigationResolver resolver, final StackRouter router) {
+  void onNavigation(final NavigationResolver resolver,
+      final StackRouter router) {
     final isUserLoggedIn = userManager.isUserLoggedInSync();
 
     if (resolver.route.name == NotFoundRoute.name ||
@@ -66,9 +71,11 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         resolver.next();
       }
     } else if ((resolver.route.name == AdminContainerRoute.name ||
-            resolver.route.name == ListMenuRoute.name ||
-            resolver.route.name == CreateMenuRoute.name ||
-            resolver.route.name == PrivateMenuRoute.name) &&
+        resolver.route.name == ListMenuRoute.name ||
+        resolver.route.name == CreateMenuRoute.name ||
+        resolver.route.name == PrivateMenuRoute.name ||
+        resolver.route.name == SampleRoute.name ||
+        resolver.route.name == PreviewRoute.name) &&
         isUserLoggedIn) {
       resolver.next();
     } else {

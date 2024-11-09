@@ -69,6 +69,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: NotFoundScreen(key: args.key),
       );
     },
+    PreviewRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PreviewScreen(),
+      );
+    },
     PrivateMenuRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<PrivateMenuRouteArgs>(
@@ -101,6 +107,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: RegistrationScreen(key: args.key),
       );
     },
+    SampleRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SampleScreen(),
+      );
+    },
   };
 }
 
@@ -116,34 +128,6 @@ class AdminContainerRoute extends PageRouteInfo<void> {
   static const String name = 'AdminContainerRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AdminScreen]
-class AdminRoute extends PageRouteInfo<AdminRouteArgs> {
-  AdminRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
-          AdminRoute.name,
-          args: AdminRouteArgs(key: key),
-          initialChildren: children,
-        );
-
-  static const String name = 'AdminRoute';
-
-  static const PageInfo<AdminRouteArgs> page = PageInfo<AdminRouteArgs>(name);
-}
-
-class AdminRouteArgs {
-  const AdminRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'AdminRouteArgs{key: $key}';
-  }
 }
 
 /// generated route for
@@ -316,6 +300,20 @@ class NotFoundRouteArgs {
   String toString() {
     return 'NotFoundRouteArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [PreviewScreen]
+class PreviewRoute extends PageRouteInfo<void> {
+  const PreviewRoute({List<PageRouteInfo>? children})
+      : super(
+          PreviewRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PreviewRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
