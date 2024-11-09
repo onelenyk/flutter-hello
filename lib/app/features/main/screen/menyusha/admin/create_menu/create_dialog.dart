@@ -188,9 +188,13 @@ class _CreateMenuPayloadDialogState extends State<CreateMenuPayloadDialog> {
 
 class CreateMenuPayloadWidget extends StatefulWidget {
   final Function(MenuPayload) onCreate;
+  final Function(MenuPayload) onPayloadChange;
 
-  const CreateMenuPayloadWidget({Key? key, required this.onCreate})
-      : super(key: key);
+  const CreateMenuPayloadWidget({
+    Key? key,
+    required this.onCreate,
+    required this.onPayloadChange,
+  }) : super(key: key);
 
   @override
   _CreateMenuPayloadWidgetState createState() =>
@@ -207,6 +211,38 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
   List<Position> positions = [];
 
   bool showPositionForm = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _addListeners();
+  }
+
+  void _addListeners() {
+    titleController.addListener(_notifyChange);
+    titleSrcController.addListener(_notifyChange);
+    publicIdController.addListener(_notifyChange);
+    userIdController.addListener(_notifyChange);
+  }
+
+  void _notifyChange() {
+    final updatedPayload = _buildMenuPayload();
+    widget.onPayloadChange(updatedPayload);
+  }
+
+  MenuPayload _buildMenuPayload() {
+    return MenuPayload(
+      id: "",
+      publicId: publicIdController.text,
+      userId: userIdController.text,
+      title: titleController.text,
+      menu: Menu(
+        designPreset: selectedPreset,
+        titleSrc: titleSrcController.text,
+        positions: positions,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +274,7 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
             onChanged: (preset) {
               setState(() {
                 selectedPreset = preset!;
+                _notifyChange();
               });
             },
             items: DesignPreset.values.map((preset) {
@@ -263,7 +300,10 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
                 subtitle: Text("Group: ${pos.group}, Price: \$${pos.price}"),
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () => setState(() => positions.remove(pos)),
+                  onPressed: () => setState(() {
+                    positions.remove(pos);
+                    _notifyChange();
+                  }),
                 ),
               );
             }).toList(),
@@ -279,17 +319,7 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  final newPayload = MenuPayload(
-                    id: "",
-                    publicId: publicIdController.text,
-                    userId: userIdController.text,
-                    title: titleController.text,
-                    menu: Menu(
-                      designPreset: selectedPreset,
-                      titleSrc: titleSrcController.text,
-                      positions: positions,
-                    ),
-                  );
+                  final newPayload = _buildMenuPayload();
                   widget.onCreate(newPayload);
                   // Optionally clear fields after creation
                 },
@@ -297,7 +327,6 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
               ),
             ],
           ),
-
         ],
       ),
     );
@@ -365,6 +394,7 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
                     setState(() {
                       positions.add(newPosition);
                       showPositionForm = false;
+                      _notifyChange();
                     });
                   },
                   child: Text('Add'),
@@ -376,4 +406,16 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    titleSrcController.dispose();
+    publicIdController.dispose();
+    userIdController.dispose();
+    super.dispose();
+  }
 }
+
+// Assuming the MenuPayload, Menu, DesignPreset, and Position classes are defined elsewhere.
+

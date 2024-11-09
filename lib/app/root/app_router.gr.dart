@@ -21,14 +21,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AdminContainerScreen(),
       );
     },
-    AdminRoute.name: (routeData) {
-      final args = routeData.argsAs<AdminRouteArgs>(
-          orElse: () => const AdminRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AdminScreen(key: args.key),
-      );
-    },
     CreateMenuRoute.name: (routeData) {
       final args = routeData.argsAs<CreateMenuRouteArgs>(
           orElse: () => const CreateMenuRouteArgs());
@@ -431,4 +423,18 @@ class RegistrationRouteArgs {
   String toString() {
     return 'RegistrationRouteArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [SampleScreen]
+class SampleRoute extends PageRouteInfo<void> {
+  const SampleRoute({List<PageRouteInfo>? children})
+      : super(
+          SampleRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SampleRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -12,7 +12,7 @@ import "create_menu_state.dart";
 
 ///cubit logic
 class CreateMenuCubit extends Cubit<CreateMenuState> {
-  CreateMenuCubit() : super(CreateMenuState(items: [], activeMenu: null)) {
+  CreateMenuCubit() : super(CreateMenuState(items: [], activeMenu: null, previewMenu: null)) {
     initialize();
   }
 
@@ -41,5 +41,9 @@ class CreateMenuCubit extends Cubit<CreateMenuState> {
     final created =
         await repository.updateMenu(payload.copyWith(id: state.activeMenu?.id));
     emit(state.copyWith(activeMenu: created));
+  }
+
+  Future<void> onPreviewChanged({required final MenuPayload payload}) async {
+    emit(state.copyWith(previewMenu: payload));
   }
 }

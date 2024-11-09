@@ -7,17 +7,21 @@ class CreateMenuState {
   CreateMenuState({
     required this.items,
     required this.activeMenu,
+    required this.previewMenu,
   });
 
   final List<MenuPayload> items;
   final MenuPayload? activeMenu;
+  final MenuPayload? previewMenu;
   // The copyWith method
   CreateMenuState copyWith({
     final List<MenuPayload>? items,
     final MenuPayload? activeMenu,
+    final MenuPayload? previewMenu,
   }) =>
       CreateMenuState(
         items: items ?? this.items,
         activeMenu: activeMenu ?? this.activeMenu,
+        previewMenu: previewMenu ?? this.previewMenu,
       );
 }
