@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 
 import "../data/firebase/user_manager.dart";
-import "../features/main/screen/menyusha/admin/admin_screen.dart";
 import "../features/main/screen/menyusha/admin/container/admin_container.dart";
 import "../features/main/screen/menyusha/admin/create_menu/create_menu_screen.dart";
 import "../features/main/screen/menyusha/admin/list_menu/list_menu_screen.dart";

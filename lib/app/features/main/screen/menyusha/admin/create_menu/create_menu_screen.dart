@@ -18,7 +18,6 @@ import "../../../base/responsive_state.dart";
 import "../../a4_page_container.dart";
 import "../../menu/menyusha_renderer.dart";
 import "../../theme/app_style.dart";
-import "../admin_cubit.dart";
 import "../create_menu/create_dialog.dart";
 import "create_menu_cubit.dart";
 import "create_menu_state.dart";
@@ -111,30 +110,36 @@ class _CreateMenuScreenState extends ResponsiveState<CreateMenuScreen,
   Widget buildBody({required final CreateMenuState state}) {
     final reachLimit = (state.items.length >= 3);
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AppDesign.buildLogo(context),
-            AppDesign.buildUserButton(context),
-          ],
-        ),
-        buildDescription(),
-        SizedBox(height: 16.0),
-        CreateMenuPayloadWidget(
-          onCreate: (newPayload) {
-            state.activeMenu != null
-                ? cubit.updateMenu(payload: newPayload)
-                : cubit.createNewMenu(payload: newPayload);
-          },
-        ),
-        state.activeMenu != null
-            ? MenuRendererWidget(
-                menu: state.activeMenu!.menu,
-              )
-            : Container(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppDesign.buildLogo(context),
+              AppDesign.buildUserButton(context),
+            ],
+          ),
+          buildDescription(),
+          SizedBox(height: 16.0),
+          CreateMenuPayloadWidget(
+            onCreate: (newPayload) {
+              state.activeMenu != null
+                  ? cubit.updateMenu(payload: newPayload)
+                  : cubit.createNewMenu(payload: newPayload);
+            },
+            onPayloadChange: (previewPayload) {
+              cubit.onPreviewChanged(payload: previewPayload);
+            },
+          ),
+      
+          if (state.activeMenu != null) MenuRendererWidget(
+                  menu: state.activeMenu!.menu,
+                ) else if (state.previewMenu != null) MenuRendererWidget(
+            menu: state.previewMenu!.menu,
+          ) else Container(),
+        ],
+      ),
     );
   }
 }

@@ -96,7 +96,6 @@ class AppDesign {
         });
   }
 
-
   static Widget buildBlueOutlinedButton(
           {required final Widget child,
           required final VoidCallback onPressed,

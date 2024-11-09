@@ -55,7 +55,7 @@ class MenuRendererWidget extends StatelessWidget {
   Widget buildTitle() {
     final theme = MenuThemeManager.getTheme(menu.designPreset);
 
-    if (menu.titleSrc.isEmpty) {
+    if (false) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -92,29 +92,23 @@ class MenuRendererWidget extends StatelessWidget {
     final theme = MenuThemeManager.getTheme(menu.designPreset);
 
     if (groupedDishes.isEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(10, (index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              child: SizedBox(
-                width: 350,
-                height: 100,
-                child: Placeholder(
-                  color: Colors.red.withAlpha(index * 10),
-                  child: Center(
-                    child: Text(
-                      "Add Dishes",
-                      style: theme.titleStyle,
-                    ),
-                  ),
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          child: SizedBox(
+            width: 350,
+            height: 100,
+            child: Placeholder(
+              color: Colors.red,
+              child: Center(
+                child: Text(
+                  "No Dishes",
+                  style: theme.titleStyle,
                 ),
               ),
             ),
-          );
-        }),
+          ),
+        ),
       );
     } else {
       return Column(
