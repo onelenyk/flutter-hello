@@ -8,6 +8,7 @@ import "package:menyusha/app/data/firebase/auth/auth_state.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/view_menu/private_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/view_menu/private_menu_state.dart";
 import "package:menyusha/app/features/main/screen/menyusha/login/auth_cubit.dart";
+import "package:url_launcher/url_launcher.dart";
 
 import "../../../../../../data/firebase/menu/menu_payload.dart";
 import "../../../../../../root/app_router.dart";
@@ -15,11 +16,6 @@ import "../../../base/responsive_state.dart";
 import "../../a4_page_container.dart";
 import "../../menu/menyusha_renderer.dart";
 import "../../theme/app_style.dart";
-import "../../theme/theme_manager.dart";
-import "../admin_cubit.dart";
-import "../admin_screen.dart";
-import "../admin_state.dart";
-import "../create_menu/create_dialog.dart";
 
 @RoutePage()
 class PrivateMenuScreen extends StatefulWidget {
@@ -175,6 +171,16 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
           }),
     );
   }
+
+  Future<void> launchInternalPage(String id, {bool isNewTab = true}) async {
+    final baseUrl = Uri.base.origin.toString(); // Gets the base URL of your app
+    final url = '$baseUrl/$id'; // Appends the id to your base URL
+    await launchUrl(
+      Uri.parse(url),
+      webOnlyWindowName: isNewTab ? '_blank' : '_self',
+    );
+  }
+
 
   Widget buildItemBody({required final PrivateMenuState state}) {
     Widget widget;

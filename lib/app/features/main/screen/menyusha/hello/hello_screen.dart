@@ -27,37 +27,6 @@ class HelloScreen extends StatefulWidget {
   _HelloScreenState createState() => _HelloScreenState(cubit);
 }
 
-class AppStyles {
-  static final TextStyle titleStyle = GoogleFonts.openSans(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    height: 1.4,
-  );
-
-  static final TextStyle bodyStyle = GoogleFonts.openSans(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: Colors.black,
-    height: 1.4,
-  );
-
-  static final TextStyle footerStyle = GoogleFonts.openSans(
-    fontSize: 12,
-    fontWeight: FontWeight.w200,
-    fontStyle: FontStyle.italic,
-    color: Colors.black,
-    height: 1.4,
-  );
-
-  static final TextStyle copyrightStyle = GoogleFonts.openSans(
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    height: 1.4,
-  );
-}
-
 class _HelloScreenState
     extends ResponsiveState<HelloScreen, NullState, NullCubit> {
   _HelloScreenState(super.cubit);
