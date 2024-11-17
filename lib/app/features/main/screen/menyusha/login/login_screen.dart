@@ -10,6 +10,7 @@ import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:menyusha/app/common/hover_button.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/sample_screen.dart";
 import "package:menyusha/main.dart";
 
 import "../../../../../common/info_block.dart";
@@ -103,12 +104,8 @@ class _LoginScreenState
     final BuildContext context,
     final AuthState state,
   ) =>
-      Container(
-        child: A4PageContainer(
-          child: buildBody(context: context, state: state),
-          color: Colors.white,
-        ),
-        color: Colors.white,
+      A4PageContainer(
+        child: buildBody(context: context, state: state),
       );
 
   @override
@@ -121,16 +118,17 @@ class _LoginScreenState
   Widget buildBody(
           {required final BuildContext context,
           required final AuthState state}) =>
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppDesign.buildLogo(context),
-          buildLoginFormBody(context: context, state: state),
-          SizedBox(height: 16),
-          DividerWidget(width: 200, height: 1),
-          SizedBox(height: 16),
-          buildAuthMethods(),
-        ],
+      TemplateScreen(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildLoginFormBody(context: context, state: state),
+            SizedBox(height: 16),
+            DividerWidget(width: 200, height: 1),
+            SizedBox(height: 16),
+            buildAuthMethods(),
+          ],
+        ),
       );
 
   Widget buildLoginFormBody(
@@ -171,54 +169,46 @@ class _LoginScreenState
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              AppDesign.buildBlueFilledButton(
-                  onPressed: () {
-                    if (state is AuthInitial) {
-                      widget.cubit.signInWithEmailAndPassword(
-                          state.email, state.password);
-                      return;
-                    } else {
-                      return;
-                    }
-                  },
-                  child: SizedBox(
-                    width: 150,
-                    child: Center(
-                      child: isLoginLoading
-                          ? Center(
+              isLoginLoading
+                  ? AppDesign.buildBlueFilledButton(
+                      onPressed: () {},
+                      child: SizedBox(
+                          width: 150,
+                          child: Center(
                               child: const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            ))
-                          : Text("Login",
-                              style: AppStyles.blueFilledButtonTextStyle),
-                    ),
-                  ),
-                  wrapContent: true,
-                  enabled: isEnabledLogin),
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          ))),
+                      wrapContent: true,
+                      enabled: isEnabledLogin)
+                  : AppDesign.buildBlueFilledButtonText(
+                      text: "Увійти",
+                      onPressed: () {
+                        if (state is AuthInitial) {
+                          widget.cubit.signInWithEmailAndPassword(
+                              state.email, state.password);
+                          return;
+                        } else {
+                          return;
+                        }
+                      }),
               SizedBox(height: 8.0),
-              AppDesign.buildBeigeFilledButton(
+              AppDesign.buildBeigeFilledButtonText(
                   onPressed: () {
                     final router = AutoRouter.of(context);
                     router.navigate(RegistrationRoute());
                   },
-                  child: SizedBox(
-                    width: 150,
-                    child: Center(
-                      child: Text("Registration",
-                          style: AppStyles.beigeFilledButtonTextStyle),
-                    ),
-                  ),
+                  text: "Registration",
                   wrapContent: true),
               if (!buildConfig.isProduction)
                 Column(
                   children: [
                     SizedBox(height: 8.0),
-                    AppDesign.buildBeigeFilledButton(
+                    AppDesign.buildBeigeFilledButtonText(
                         onPressed: () {
                           if (state is AuthInitial) {
                             widget.cubit
@@ -228,13 +218,7 @@ class _LoginScreenState
                             return;
                           }
                         },
-                        child: SizedBox(
-                          width: 150,
-                          child: Center(
-                            child: Text("Admin sign in",
-                                style: AppStyles.beigeFilledButtonTextStyle),
-                          ),
-                        ),
+                        text: "Admin sign in",
                         wrapContent: true)
                   ],
                 )

@@ -54,10 +54,7 @@ class RootComponent extends StatelessWidget {
   Widget build(final BuildContext context) => MaterialApp.router(
         title: "Nazar Lenyk",
         theme: _buildTheme(Brightness.light),
-        routerConfig: _router.config(placeholder: (context) => A4PageContainer(
-            color: Colors.red,
-            child: AppDesign.buildLogoLoader(),
-          )),
+        routerConfig: _router.config(placeholder: (context) => AppDesign.buildLogoLoader()),
         debugShowCheckedModeBanner: !buildConfig.isProduction,
       );
 }

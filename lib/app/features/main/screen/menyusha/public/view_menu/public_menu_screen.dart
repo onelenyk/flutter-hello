@@ -74,17 +74,6 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
       return SingleChildScrollView(
         child: Column(
           children: [
-            A4PageWidthContainer(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Row(
-                  children: [
-                    AppDesign.buildLogoSmall(context),
-                  ],
-                ),
-              ),
-              color: theme.backgroundColor,
-            ),
             Container(
                 child: Title(
               title: state.loadedMenu!.title,
@@ -93,12 +82,42 @@ class _PublicMenuScreenState extends ResponsiveState<PublicMenuScreen,
                 menu: state.loadedMenu!.menu,
               ),
             )),
+
+            A4PageWidthContainer(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppDesign.buildLogoSmall(context),
+                    AppDesign.buildCopyrightTextYear(theme.backgroundColor)
+                  ],
+                ),
+              ),
+
+              color: theme.backgroundColor,
+            ),
           ],
         ),
       );
     }
   }
 }
+
+Color getContrastingColor(Color color) {
+  return color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+}
+
+Color invertColor(Color color) {
+  return Color.fromARGB(
+    color.alpha,
+    255 - color.red,
+    255 - color.green,
+    255 - color.blue,
+  );
+}
+
+
 
 class SkeletonLoader extends StatelessWidget {
   @override

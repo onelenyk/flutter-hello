@@ -95,11 +95,8 @@ class _CreateMenuPayloadDialogState extends State<CreateMenuPayloadDialog> {
           onPressed: () => Navigator.pop(context),
           child: Text('Cancel'),
         ),
-        AppDesign.buildBlueOutlinedButton(
-            child: Text(
-              'Create',
-              style: AppStyles.blueOutlinedButtonTextStyle,
-            ),
+        AppDesign.buildBlueOutlinedButtonText(
+            text: "Create",
             onPressed: () {
               final newPayload = MenuPayload(
                 id: "",
@@ -186,6 +183,7 @@ class _CreateMenuPayloadDialogState extends State<CreateMenuPayloadDialog> {
   }
 }
 
+/*
 class CreateMenuPayloadWidget extends StatefulWidget {
   final Function(MenuPayload) onCreate;
   final Function(MenuPayload) onPayloadChange;
@@ -404,6 +402,236 @@ class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    titleSrcController.dispose();
+    publicIdController.dispose();
+    userIdController.dispose();
+    super.dispose();
+  }
+}
+
+*/
+
+class CreateMenuPayloadWidget extends StatefulWidget {
+  final Function(MenuPayload) onCreate;
+  final Function(MenuPayload) onPayloadChange;
+
+  const CreateMenuPayloadWidget({
+    Key? key,
+    required this.onCreate,
+    required this.onPayloadChange,
+  }) : super(key: key);
+
+  @override
+  _CreateMenuPayloadWidgetState createState() => _CreateMenuPayloadWidgetState();
+}
+
+class _CreateMenuPayloadWidgetState extends State<CreateMenuPayloadWidget> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController titleSrcController = TextEditingController();
+  final TextEditingController publicIdController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
+
+  DesignPreset selectedPreset = DesignPreset.BANDANA;
+  List<Position> positions = [];
+  bool showPositionForm = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _addListeners();
+  }
+
+  void _addListeners() {
+    titleController.addListener(_notifyChange);
+    titleSrcController.addListener(_notifyChange);
+    publicIdController.addListener(_notifyChange);
+    userIdController.addListener(_notifyChange);
+  }
+
+  void _notifyChange() {
+    widget.onPayloadChange(_buildMenuPayload());
+  }
+
+  MenuPayload _buildMenuPayload() {
+    return MenuPayload(
+      id: "",
+      publicId: publicIdController.text,
+      userId: userIdController.text,
+      title: titleController.text,
+      menu: Menu(
+        designPreset: selectedPreset,
+        titleSrc: titleSrcController.text,
+        positions: positions,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Create New MenuPayload',
+            style: AppStyles.body3Style,
+          ),
+          const SizedBox(height: 12.0),
+          _buildInputField(controller: titleController, label: 'Title'),
+          _buildInputField(controller: publicIdController, label: 'Public ID'),
+          _buildInputField(controller: userIdController, label: 'User ID'),
+          _buildInputField(controller: titleSrcController, label: 'Image Title Link'),
+          _buildDesignPresetDropdown(),
+          const SizedBox(height: 12.0),
+          _buildAddPositionButton(),
+          if (showPositionForm) _positionForm(),
+          const SizedBox(height: 12.0),
+          _buildPositionList(),
+          _buildActionButtons(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInputField({required TextEditingController controller, required String label}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: AppStyles.inputDecoration.copyWith(labelText: label),
+        style: AppStyles.labelTextStyle,
+      ),
+    );
+  }
+
+  Widget _buildDesignPresetDropdown() {
+    return DropdownButton<DesignPreset>(
+      value: selectedPreset,
+      onChanged: (preset) {
+        setState(() {
+          selectedPreset = preset!;
+          _notifyChange();
+        });
+      },
+      items: DesignPreset.values.map((preset) {
+        return DropdownMenuItem(
+          value: preset,
+          child: Text(preset.name, style: AppStyles.bodyStyle),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildAddPositionButton() {
+    return AppDesign.buildBlueOutlinedButtonText(
+      onPressed: () => setState(() => showPositionForm = true),
+      text: 'Add Position',
+    );
+  }
+
+  Widget _positionForm() {
+    final TextEditingController groupController = TextEditingController();
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
+    final TextEditingController priceController = TextEditingController();
+    final TextEditingController outputController = TextEditingController();
+
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Add Position', style: AppStyles.body2Style),
+            _buildInputField(controller: groupController, label: 'Group'),
+            _buildInputField(controller: titleController, label: 'Title'),
+            _buildInputField(controller: descriptionController, label: 'Description'),
+            _buildInputField(
+              controller: priceController,
+              label: 'Price',
+            ),
+            _buildInputField(controller: outputController, label: 'Output'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                AppDesign.buildBlueOutlinedButtonText(
+                  onPressed: () => setState(() => showPositionForm = false),
+                  text: 'Cancel',
+                ),
+                const SizedBox(width: 8.0),
+                AppDesign.buildBlueOutlinedButtonText(
+                  onPressed: () {
+                    final newPosition = Position(
+                      id: UniqueKey().toString(),
+                      group: groupController.text,
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      price: double.tryParse(priceController.text) ?? 0.0,
+                      output: outputController.text,
+                    );
+                    setState(() {
+                      positions.add(newPosition);
+                      showPositionForm = false;
+                      _notifyChange();
+                    });
+                  },
+                  text: 'Add',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPositionList() {
+    return Column(
+      children: positions.map((pos) {
+        return ListTile(
+          title: Text(pos.title, style: AppStyles.bodyStyle),
+          subtitle: Text("Group: ${pos.group}, Price: \$${pos.price}", style: AppStyles.footerStyle),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              setState(() {
+                positions.remove(pos);
+                _notifyChange();
+              });
+            },
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        AppDesign.buildBlueOutlinedButtonText(
+          onPressed: () {
+            // Handle cancel action, e.g., clear fields or navigate back
+          },
+          text: 'Cancel',
+        ),
+        const SizedBox(width: 8.0),
+        AppDesign.buildBlueOutlinedButtonText(
+          onPressed: () {
+            widget.onCreate(_buildMenuPayload());
+            // Optionally clear fields after creation
+          },
+          text: 'Create',
+        ),
+      ],
     );
   }
 

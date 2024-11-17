@@ -10,6 +10,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:menyusha/app/common/link_utils.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/list_menu/list_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/list_menu/list_menu_state.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/sample_screen.dart";
 import "package:url_launcher/url_launcher.dart";
 
 import "../../../../../../data/firebase/menu/menu_payload.dart";
@@ -46,12 +47,8 @@ class _ListMenuScreenState
     final BuildContext context,
     final ListMenuState state,
   ) =>
-      Container(
-        child: A4PageContainer(
-          child: buildBody(state: state),
-          color: Colors.white,
-        ),
-        color: Colors.white,
+      A4PageContainer(
+        child: buildBody(state: state),
       );
 
   @override
@@ -68,7 +65,7 @@ class _ListMenuScreenState
       children: [
         Flexible(
           child: Text(
-            'Список меню:',
+            "Список меню:",
             style: AppStyles.body2Style,
           ),
         ),
@@ -77,126 +74,175 @@ class _ListMenuScreenState
     );
   }
 
-  Widget buildBlueFilledButton(
-          {required final Widget child,
-          required final VoidCallback onPressed,
-          final bool enabled = true,
-          final EdgeInsetsGeometry? padding =
-              const EdgeInsets.symmetric(horizontal: 4.0),
-          final bool wrapContent = false}) =>
-      SizedBox(
-        height: wrapContent ? null : 44,
-        child: ElevatedButton(
-          onPressed: enabled ? onPressed : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: enabled
-                ? AppColors.blueAccent
-                : AppColors.blueAccent
-                    .withOpacity(0.5), // Dimmed color when disabled
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
-      );
+  final List<Color> usedColors = [];
+
+  Color getRandomUnusedColor() {
+    final colors = [
+      AppColors.accentSoftBlue,
+      AppColors.accentPeach,
+      AppColors.accentBlueGrey,
+      AppColors.accentLightGrey,
+    ];
+    final defaultColors = [
+      AppColors.accentSoftBlue,
+      AppColors.accentPeach,
+      AppColors.accentBlueGrey,
+      AppColors.accentLightGrey,
+    ].map((final item) => item.withOpacity(0.6)).toList();
+
+    final randomColor = AppColors.getRandomColor(
+      colors: colors + defaultColors,
+      previouslyUsedColors: usedColors,
+    );
+
+    // Add the color to the used list
+    usedColors.add(randomColor);
+
+    // Return the random unused color
+    return randomColor;
+  }
+
+  Future<String> getUrlNameString(final String id) async {
+    final baseUrl = Uri.base.origin.toString(); // Gets the base URL of your app
+    final url = "$baseUrl/$id"; // Appends the id to your base URL
+    return url;
+  }
 
   Widget buildMenuItem({required final MenuPayload item}) {
+    final randomColor = getRandomUnusedColor();
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: buildBlueFilledButton(
-          wrapContent: true,
-          child: Padding(
-            padding: const EdgeInsets.all(4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+      child: AppDesign.buildFilledButton(
+        styleType: ButtonStyleType.custom(
+            "name",
+            randomColor,
+            AppStyles.blueFilledButtonTextStyle,
+            AppStyles.blueOutlinedButtonTextStyle),
+        wrapContent: true,
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(
                         item.title,
-                        style: AppStyles.blueFilledButtonTextStyle,
+                        style: AppStyles.body2Style
+                            .copyWith(color: AppColors.primaryBlack),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            style: AppStyles.blueFilledButtonTextStyle,
-                            "Design Preset: ${item.menu.designPreset.name} Public id: ${item.publicId}",
-                          )
-                        ],
+                    ),
+                    Container(
+                      child: Text(
+                        style: AppStyles.bodyStyle.copyWith(
+                            color: AppColors.primaryDarkGrey, fontSize: 16),
+                        "Public url: ${item.name}",
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: AppColors.white,
-                  ),
-                  onPressed: () => cubit.deleteMenu(payload: item),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          onPressed: () {
-            final router = AutoRouter.of(context);
-            // Use pushAndRemoveUntil with the root route
-            router.navigate(
-              PrivateMenuRoute(id: item.id),
-            );
-          }),
+        ),
+        onPressed: () {
+          final router = AutoRouter.of(context);
+          // Use pushAndRemoveUntil with the root route
+          router.navigate(
+            PrivateMenuRoute(id: item.id),
+          );
+        },
+      ),
     );
   }
 
-  Widget buildBody({required final ListMenuState state}) {
-    final reachLimit = (state.items.length >= 3);
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AppDesign.buildLogo(context),
-            AppDesign.buildUserButton(context),
-          ],
+  Widget buildAddItem({required VoidCallback onAddItem}) {
+    return AppDesign.buildFilledButton(
+        styleType: ButtonStyleType.blue,
+        child: const Center(
+          child: Icon(Icons.add, color: Colors.white, size: 32),
         ),
+        onPressed: () {
+          onAddItem();
+        });
+  }
+
+  Widget buildBody({required final ListMenuState state}) {
+    final listSize = state.items.length;
+
+    final reachLimit = listSize >= 3;
+    final showAddOption = !reachLimit;
+
+    return TemplateScreenAdmin(
+        child: Column(
+      children: [
         buildDescription(),
-        Column(
+        GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Two items per row
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 8.0,
+            childAspectRatio: 1.0, // Adjust as needed
+          ),
+          itemCount: listSize + 1, // Add one for the "plus" item
+          itemBuilder: (context, index) {
+            final isRegularItem = index < listSize;
+            if (isRegularItem) {
+              // Build regular menu item
+              return buildMenuItem(item: state.items[index]);
+            } else if (showAddOption) {
+              // Build "plus" item
+              return buildAddItem(onAddItem: () {
+                // Add your logic to handle adding a new item
+                setState(() {
+                  final router = AutoRouter.of(context);
+                  // Use pushAndRemoveUntil with the root route
+                  router.navigate(
+                    CreateMenuRoute(),
+                  );
+                });
+              });
+            } else {
+              return Container();
+            }
+          },
+        ),
+
+/*        Column(
           children: state.items.map((item) {
             return buildMenuItem(item: item);
           }).map((item) {
             return item;
           }).toList(),
-        ),
-        SizedBox(height: 16.0),
-        AppDesign.buildBlueOutlinedButton(
-            child: reachLimit
-                ? Text(
-                    'Ліміт досягнуто',
-                    style: AppStyles.blueOutlinedButtonTextStyle
-                        .copyWith(color: AppColors.blueAccent.withOpacity(0.5)),
-                  )
-                : Text(
-                    'Створити нове меню',
-                    style: AppStyles.blueOutlinedButtonTextStyle,
-                  ),
+        ),*/
+        SizedBox(height: 64.0),
+        AppDesign.buildBlueOutlinedButtonText(
+            text: "DESIGN PREVIEW",
             enabled: !reachLimit,
             onPressed: () {
               final router = AutoRouter.of(context);
               // Use pushAndRemoveUntil with the root route
               router.navigate(
-                CreateMenuRoute(),
+                PreviewRoute(),
+              );
+            }),
+        AppDesign.buildBlueOutlinedButtonText(
+            text: "DESIGN SAMPLE",
+            enabled: !reachLimit,
+            onPressed: () {
+              final router = AutoRouter.of(context);
+              // Use pushAndRemoveUntil with the root route
+              router.navigate(
+                SampleRoute(),
               );
             })
       ],
-    );
+    ));
   }
 }

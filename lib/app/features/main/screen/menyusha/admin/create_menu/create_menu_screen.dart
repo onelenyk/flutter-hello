@@ -10,6 +10,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:menyusha/app/common/link_utils.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/list_menu/list_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/list_menu/list_menu_state.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/sample_screen.dart";
 import "package:url_launcher/url_launcher.dart";
 
 import "../../../../../../data/firebase/menu/menu_payload.dart";
@@ -48,12 +49,8 @@ class _CreateMenuScreenState extends ResponsiveState<CreateMenuScreen,
     final BuildContext context,
     final CreateMenuState state,
   ) =>
-      Container(
-        child: A4PageContainer(
-          child: buildBody(state: state),
-          color: Colors.white,
-        ),
-        color: Colors.white,
+      A4PageContainer(
+        child: buildBody(state: state),
       );
 
   @override
@@ -79,67 +76,30 @@ class _CreateMenuScreenState extends ResponsiveState<CreateMenuScreen,
     );
   }
 
-  Widget buildBlueFilledButton(
-          {required final Widget child,
-          required final VoidCallback onPressed,
-          final bool enabled = true,
-          final EdgeInsetsGeometry? padding =
-              const EdgeInsets.symmetric(horizontal: 4.0),
-          final bool wrapContent = false}) =>
-      SizedBox(
-        height: wrapContent ? null : 44,
-        child: ElevatedButton(
-          onPressed: enabled ? onPressed : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: enabled
-                ? AppColors.blueAccent
-                : AppColors.blueAccent
-                    .withOpacity(0.5), // Dimmed color when disabled
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+  Widget buildBody({required final CreateMenuState state}) => TemplateScreenAdmin(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildDescription(),
+            SizedBox(height: 16.0),
+            CreateMenuPayloadWidget(
+              onCreate: (newPayload) {
+                state.activeMenu != null
+                    ? cubit.updateMenu(payload: newPayload)
+                    : cubit.createNewMenu(payload: newPayload);
+              },
+              onPayloadChange: (previewPayload) {
+                cubit.onPreviewChanged(payload: previewPayload);
+              },
             ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
+
+            if (state.activeMenu != null) MenuRendererWidget(
+                    menu: state.activeMenu!.menu,
+                  ) else if (state.previewMenu != null) MenuRendererWidget(
+              menu: state.previewMenu!.menu,
+            ) else Container(),
+          ],
         ),
-      );
-
-  Widget buildBody({required final CreateMenuState state}) {
-    final reachLimit = (state.items.length >= 3);
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppDesign.buildLogo(context),
-              AppDesign.buildUserButton(context),
-            ],
-          ),
-          buildDescription(),
-          SizedBox(height: 16.0),
-          CreateMenuPayloadWidget(
-            onCreate: (newPayload) {
-              state.activeMenu != null
-                  ? cubit.updateMenu(payload: newPayload)
-                  : cubit.createNewMenu(payload: newPayload);
-            },
-            onPayloadChange: (previewPayload) {
-              cubit.onPreviewChanged(payload: previewPayload);
-            },
-          ),
-      
-          if (state.activeMenu != null) MenuRendererWidget(
-                  menu: state.activeMenu!.menu,
-                ) else if (state.previewMenu != null) MenuRendererWidget(
-            menu: state.previewMenu!.menu,
-          ) else Container(),
-        ],
       ),
     );
-  }
 }

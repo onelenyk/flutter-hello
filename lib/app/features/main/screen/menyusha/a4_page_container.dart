@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/app_style.dart";
 
 class A4PageContainer extends StatelessWidget {
   // Background color of the container
-  A4PageContainer({required this.child, this.color = Colors.white});
+  A4PageContainer({required this.child, this.color = AppColors.background});
 
   final Widget child; // Child widget to be placed inside the container
   final Color color;

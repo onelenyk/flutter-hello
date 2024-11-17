@@ -32,6 +32,9 @@ class MenuPayload implements BaseModel {
   final String title;
   final Menu menu;
 
+  String get name => "localmenu.online/$publicId"; // Private constructor for freezed
+
+
   MenuPayload copyWith({
     String? id,
     String? publicId,

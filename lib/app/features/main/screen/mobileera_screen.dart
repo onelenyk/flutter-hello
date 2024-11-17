@@ -1,4 +1,5 @@
 import "package:auto_route/auto_route.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
@@ -8,6 +9,7 @@ import "package:menyusha/app/features/main/screen/notfound/not_found.dart";
 
 import "base/base_screen.dart";
 import "base/responsive_state.dart";
+import "menyusha/theme/app_style.dart";
 
 @RoutePage()
 class MobileEraScreen extends StatefulWidget {
@@ -18,12 +20,11 @@ class MobileEraScreen extends StatefulWidget {
 }
 
 class _MobileEraScreenState extends State<MobileEraScreen> {
-
   @override
-  Widget build(final BuildContext context) => const BaseEntryPointScreen(
-        child: BaseScreen(
+  Widget build(final BuildContext context) => BaseEntryPointScreen(
+        child: Container(
           child: AutoRouter(),
-          backgroundColor: Colors.white,
+          color: AppColors.background,
         ),
       );
 }

@@ -108,114 +108,113 @@ class AppDesign {
         });
   }
 
-  static Widget buildBlueOutlinedButton(
+  static Widget buildBlueOutlinedButtonText(
+          {required final String text,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final bool wrapContent = true}) =>
+      CustomOutlinedButton(
+        text: text,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.blue,
+        enabled: enabled,
+        wrapContent: wrapContent,
+      );
+
+  static Widget buildBlueFilledButtonText(
+          {required final String text,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final bool wrapContent = true}) =>
+      CustomFilledButton(
+        text: text,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.blue,
+        enabled: enabled,
+        wrapContent: wrapContent,
+      );
+
+  static Widget buildBlueFilledButton(
           {required final Widget child,
           required final VoidCallback onPressed,
           final bool enabled = true,
           final EdgeInsetsGeometry? padding =
-              const EdgeInsets.symmetric(horizontal: 8.0),
+              const EdgeInsets.symmetric(horizontal: 4.0),
           final bool wrapContent = true}) =>
-      SizedBox(
-        height: wrapContent ? null : 44,
-        child: OutlinedButton(
-          onPressed: enabled ? onPressed : null,
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            side: BorderSide(
-                color: enabled
-                    ? AppColors.blueAccent
-                    : AppColors.blueAccent.withOpacity(0.5),
-                width: 2.0),
-            // Beige border color
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
+      CustomFilledButtonWidget(
+        child: child,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.blue,
+        enabled: enabled,
+        wrapContent: wrapContent,
       );
 
-  static Widget buildBlueFilledButton(
-      {required final Widget child,
-        required final VoidCallback onPressed,
-        final bool enabled = true,
-        final EdgeInsetsGeometry? padding =
-        const EdgeInsets.symmetric(horizontal: 4.0),
-        final bool wrapContent = true}) =>
-      SizedBox(
-        height: wrapContent ? null : 44,
-        child: ElevatedButton(
-          onPressed: enabled ? onPressed : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: enabled
-                ? AppColors.blueAccent
-                : AppColors.blueAccent
-                .withOpacity(0.5), // Dimmed color when disabled
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
+  static Widget buildFilledButton(
+          {required final ButtonStyleType styleType,
+          required final Widget child,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final EdgeInsetsGeometry? padding =
+              const EdgeInsets.symmetric(horizontal: 4.0),
+          final bool wrapContent = true}) =>
+      CustomFilledButtonWidget(
+        child: child,
+        onPressed: onPressed,
+        styleType: styleType,
+        enabled: enabled,
+        wrapContent: wrapContent,
+      );
+
+  static Widget buildBeigeFilledButtonText(
+          {required final String text,
+          required final VoidCallback onPressed,
+          final bool enabled = true,
+          final bool wrapContent = true}) =>
+      CustomFilledButton(
+        text: text,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.beige,
+        enabled: enabled,
+        wrapContent: wrapContent,
+      );
+
+  static Widget buildBeigeOutlinedButtonText(
+          {required final String text,
+          required final VoidCallback onPressed,
+          final bool wrapContent = true,
+          final bool enabled = true}) =>
+      CustomOutlinedButton(
+        text: text,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.beige,
+        enabled: enabled,
+        wrapContent: wrapContent,
       );
 
   static Widget buildBeigeFilledButton(
           {required final Widget child,
           required final VoidCallback onPressed,
           final bool enabled = true,
-          final EdgeInsetsGeometry? padding =
-              const EdgeInsets.symmetric(horizontal: 4.0),
           final bool wrapContent = true}) =>
-      SizedBox(
-        height: wrapContent ? null : 44,
-        child: ElevatedButton(
-          onPressed: enabled ? onPressed : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: enabled
-                ? AppColors.beigeAccent
-                : AppColors.beigeAccent.withOpacity(0.5),
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
+      CustomOutlinedButtonWidget(
+        child: child,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.beige,
+        enabled: enabled,
+        wrapContent: wrapContent,
       );
 
   static Widget buildBeigeOutlinedButton(
           {required final Widget child,
           required final VoidCallback onPressed,
-          final EdgeInsetsGeometry? padding =
-              const EdgeInsets.symmetric(horizontal: 4.0),
+          final bool enabled = true,
           final bool wrapContent = true}) =>
-      SizedBox(
-        height: wrapContent ? null : 44,
-        child: OutlinedButton(
-          onPressed: onPressed,
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            side: BorderSide(color: AppColors.beigeAccent, width: 2.0),
-            // Beige border color
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: child,
-          ),
-        ),
+      CustomOutlinedButtonWidget(
+        child: child,
+        onPressed: onPressed,
+        styleType: ButtonStyleType.beige,
+        enabled: enabled,
+        wrapContent: wrapContent,
       );
 
   /// Outlined input field with onChange callback
@@ -282,7 +281,7 @@ class AppStyles {
   static final TextStyle blueFilledButtonTextStyle = GoogleFonts.openSans(
     fontSize: 14,
     fontWeight: FontWeight.bold,
-    color: AppColors.white,
+    color: AppColors.fontOnBackground,
   );
   static final TextStyle blueOutlinedButtonTextStyle = GoogleFonts.openSans(
     fontSize: 14,
@@ -293,14 +292,14 @@ class AppStyles {
   static final TextStyle titleStyle = GoogleFonts.openSans(
     fontSize: 14,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
+    color: AppColors.fontOnBackground,
     height: 1.4,
   );
 
   static final TextStyle bodyStyle = GoogleFonts.openSans(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: Colors.black,
+    color: AppColors.fontOnBackground,
     height: 1.4,
   );
 
@@ -321,21 +320,21 @@ class AppStyles {
     fontSize: 12,
     fontWeight: FontWeight.w200,
     fontStyle: FontStyle.italic,
-    color: Colors.black,
+    color: AppColors.fontOnBackground,
     height: 1.4,
   );
 
   static final TextStyle copyrightStyle = GoogleFonts.openSans(
     fontSize: 12,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
+    color: AppColors.fontOnBackground,
     height: 1.4,
   );
 
   static final TextStyle labelTextStyle = GoogleFonts.openSans(
     fontSize: 14,
     fontWeight: FontWeight.w600,
-    color: Colors.black,
+    color: AppColors.fontOnBackground,
   );
 
   static final InputDecoration inputDecoration = InputDecoration(
@@ -352,10 +351,288 @@ class AppStyles {
 }
 
 class AppColors {
+  static const Color background = primaryBlack;
+
   static const Color blueAccent = Color(0xFF4A6FA5);
   static const Color beigeAccent = Color(0xFFE6D2B5);
   static const Color redBeigeAccent = Color(0xFFE2DAD6);
 
   static const Color white = Colors.white;
   static const Color black = Colors.black;
+
+  //NEW
+  static const Color primaryFont =
+      Color(0xFF111315); // Dark black for main font
+  static const Color secondaryFont =
+      Color(0xFF292C2D); // Dark grey for secondary text
+  static const Color tertiaryFont =
+      Color(0xFF989898); // Light grey for less emphasis
+  static const Color fontOnBackground = primaryWhite;
+
+  static const Color primaryDarkGrey = Color(0xFF2A2C2D);
+  static const Color primaryBlack = Color(0xFF111315);
+  static const Color primaryWhite = Color(0xFFFFFFFF);
+  static const Color primaryMediumGrey = Color(0xFF676767);
+  static const Color primaryLightGrey = Color(0xFFABABAB);
+
+  // Accent Colors
+  static const Color accentPeach = Color(0xFFF5D8C8);
+  static const Color accentLightGrey = Color(0xFFDFE2E3);
+  static const Color accentSoftBlue = Color(0xFFC6CCD9);
+  static const Color accentBlueGrey = Color(0xFF709ED0);
+
+  static Color getRandomColor({
+    final List<Color> colors = const [
+      accentPeach,
+      accentLightGrey,
+      accentSoftBlue,
+      accentBlueGrey,
+
+    ],
+    final List<Color> previouslyUsedColors = const [],
+  }) {
+    // Create a new list excluding previously used colors
+    final availableColors = colors
+        .where((final color) => !previouslyUsedColors.contains(color))
+        .toList();
+
+    // If no available colors are left, reset to the full list
+    if (availableColors.isEmpty) {
+      return colors[Random().nextInt(colors.length)];
+    }
+
+    // Pick a random color from the available colors
+    return availableColors[Random().nextInt(availableColors.length)];
+  }
+}
+
+class ButtonStyleType {
+  const ButtonStyleType._(
+      this.name, this.color, this.textStyleFilled, this.textStyleOutlined);
+
+  final String name;
+  final Color color;
+
+  final TextStyle textStyleFilled;
+  final TextStyle textStyleOutlined;
+
+  // Predefined styles
+  static ButtonStyleType blue = ButtonStyleType._(
+      'blue',
+      AppColors.blueAccent,
+      AppStyles.blueFilledButtonTextStyle,
+      AppStyles.blueOutlinedButtonTextStyle);
+
+  static ButtonStyleType beige = ButtonStyleType._(
+      'beige',
+      AppColors.beigeAccent,
+      AppStyles.beigeFilledButtonTextStyle,
+      AppStyles.beigeOutlinedButtonTextStyle);
+
+  // Custom style
+  factory ButtonStyleType.custom(String name, Color color,
+      TextStyle textStyleFilled, TextStyle textStyleOutlined) {
+    return ButtonStyleType._(
+        'custom_$name', color, textStyleFilled, textStyleOutlined);
+  }
+
+  @override
+  String toString() => 'ButtonStyleType(name: $name)';
+}
+
+class CustomFilledButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final bool enabled;
+  final bool wrapContent;
+  final ButtonStyleType styleType;
+  final EdgeInsetsGeometry? padding;
+
+  CustomFilledButton({
+    required this.text,
+    required this.onPressed,
+    this.enabled = true,
+    this.wrapContent = true,
+    required this.styleType,
+    this.padding,
+    final Key? key,
+  }) : super(key: key);
+
+  Color get backgroundColor => enabled
+      ? (styleType == ButtonStyleType.blue
+          ? AppColors.blueAccent
+          : AppColors.beigeAccent)
+      : (styleType == ButtonStyleType.blue
+          ? AppColors.blueAccent.withOpacity(0.5)
+          : AppColors.beigeAccent.withOpacity(0.5));
+
+  TextStyle get textStyle => enabled
+      ? (styleType == ButtonStyleType.blue
+          ? AppStyles.blueFilledButtonTextStyle
+          : AppStyles.beigeFilledButtonTextStyle)
+      : (styleType == ButtonStyleType.blue
+          ? AppStyles.blueFilledButtonTextStyle
+          : AppStyles.beigeFilledButtonTextStyle);
+
+  @override
+  Widget build(final BuildContext context) => SizedBox(
+        height: wrapContent ? null : 44,
+        child: ElevatedButton(
+          onPressed: enabled ? onPressed : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor,
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              text,
+              style: textStyle,
+            ),
+          ),
+        ),
+      );
+}
+
+class CustomOutlinedButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final bool enabled;
+  final bool wrapContent;
+  final ButtonStyleType styleType;
+  final EdgeInsetsGeometry? padding;
+
+  const CustomOutlinedButton({
+    required this.text,
+    required this.onPressed,
+    required this.styleType,
+    this.enabled = true,
+    this.wrapContent = true,
+    this.padding,
+    final Key? key,
+  }) : super(key: key);
+
+  Color get borderColor => enabled
+      ? (styleType.color)
+      : (styleType.color.withOpacity(0.5));
+
+  TextStyle get textStyle => styleType.textStyleOutlined;
+
+  @override
+  Widget build(final BuildContext context) => SizedBox(
+        height: wrapContent ? null : 44,
+        child: OutlinedButton(
+          onPressed: enabled ? onPressed : null,
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            side: BorderSide(color: borderColor, width: 2.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(text, style: textStyle),
+          ),
+        ),
+      );
+}
+
+class CustomFilledButtonWidget extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onPressed;
+  final bool enabled;
+  final bool wrapContent;
+  final ButtonStyleType styleType;
+  final EdgeInsetsGeometry? padding;
+  final ButtonStyle? customStyle;
+
+  const CustomFilledButtonWidget({
+    required this.child,
+    required this.onPressed,
+    this.enabled = true,
+    this.wrapContent = true,
+    required this.styleType,
+    this.padding,
+    this.customStyle,
+    final Key? key,
+  }) : super(key: key);
+
+  Color get backgroundColor => enabled
+      ? (styleType.color)
+      : (styleType.color.withOpacity(0.5));
+
+  TextStyle get textStyle => styleType.textStyleFilled;
+
+  @override
+  Widget build(final BuildContext context) => SizedBox(
+        height: wrapContent ? null : 44,
+        child: ElevatedButton(
+          onPressed: enabled ? onPressed : null,
+          style: customStyle ??
+              ElevatedButton.styleFrom(
+                backgroundColor: backgroundColor,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 8.0),
+            child: child,
+          ),
+        ),
+      );
+}
+
+class CustomOutlinedButtonWidget extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onPressed;
+  final bool enabled;
+  final bool wrapContent;
+  final ButtonStyleType styleType;
+  final EdgeInsetsGeometry? padding;
+  final ButtonStyle? customStyle;
+
+  const CustomOutlinedButtonWidget({
+    required this.child,
+    required this.onPressed,
+    this.enabled = true,
+    this.wrapContent = true,
+    required this.styleType,
+    this.padding,
+    this.customStyle,
+    final Key? key,
+  }) : super(key: key);
+
+  Color get borderColor => enabled
+      ? (styleType == ButtonStyleType.blue
+          ? AppColors.blueAccent
+          : AppColors.beigeAccent)
+      : (styleType == ButtonStyleType.blue
+          ? AppColors.blueAccent.withOpacity(0.5)
+          : AppColors.beigeAccent.withOpacity(0.5));
+
+  @override
+  Widget build(final BuildContext context) => SizedBox(
+        height: wrapContent ? null : 44,
+        child: OutlinedButton(
+          onPressed: enabled ? onPressed : null,
+          style: customStyle ??
+              OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                side: BorderSide(color: borderColor, width: 2.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+          child: Padding(
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 8.0),
+            child: child,
+          ),
+        ),
+      );
 }

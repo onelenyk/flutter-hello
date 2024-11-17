@@ -9,6 +9,7 @@ import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:menyusha/app/features/main/screen/menyusha/login/auth_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/login/login_screen.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/sample_screen.dart";
 
 import "../../../../../data/firebase/auth/auth_state.dart";
 import "../../base/responsive_state.dart";
@@ -26,13 +27,12 @@ class RegistrationScreen extends StatefulWidget {
   _RegistrationScreenState createState() => _RegistrationScreenState(cubit);
 }
 
-class _RegistrationScreenState
-    extends ResponsiveState<RegistrationScreen, AuthState, AuthenticationCubit> {
+class _RegistrationScreenState extends ResponsiveState<RegistrationScreen,
+    AuthState, AuthenticationCubit> {
   _RegistrationScreenState(super.cubit);
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
 
   @override
   void onStateChange(
@@ -60,20 +60,18 @@ class _RegistrationScreenState
   ) =>
       buildBody(state: state);
 
-  Widget buildBody({required final AuthState state}) => Container(
-      color: Colors.white, child: Center(child:Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      AppDesign.buildLogo(context),
-      buildLoginFormBody(context: context, state: state),
-      SizedBox(height: 16),
-      DividerWidget(width: 200, height: 1),
-      SizedBox(height: 16),
-      buildAuthMethods(),
-    ],
-  )));
-
-
+  Widget buildBody({required final AuthState state}) => TemplateScreen(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildLoginFormBody(context: context, state: state),
+            SizedBox(height: 16),
+            DividerWidget(width: 200, height: 1),
+            SizedBox(height: 16),
+            buildAuthMethods(),
+          ],
+        ),
+      );
 
   /// Builds the login form with email and password fields
   Widget buildLoginFormBody(
@@ -129,16 +127,16 @@ class _RegistrationScreenState
                   child: Center(
                       child: isLoginLoading
                           ? Center(
-                          child: const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          ))
+                              child: const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            ))
                           : Text("Confirm",
-                          style: AppStyles.beigeFilledButtonTextStyle)),
+                              style: AppStyles.beigeFilledButtonTextStyle)),
                 ),
               ),
             ],
@@ -151,21 +149,21 @@ class _RegistrationScreenState
 
   /// Builds social authentication methods, such as Google login
   Widget buildAuthMethods() => Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AppDesign.buildBlueFilledButton(
-          onPressed: widget.cubit.signInWithGoogle,
-          child: Center(
-            child: Icon(
-              FontAwesomeIcons.google,
-              color: Colors.white,
-              size: 30,
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppDesign.buildBlueFilledButton(
+              onPressed: widget.cubit.signInWithGoogle,
+              child: Center(
+                child: Icon(
+                  FontAwesomeIcons.google,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 }

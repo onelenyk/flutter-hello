@@ -8,6 +8,7 @@ import "package:menyusha/app/data/firebase/auth/auth_state.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/view_menu/private_menu_cubit.dart";
 import "package:menyusha/app/features/main/screen/menyusha/admin/view_menu/private_menu_state.dart";
 import "package:menyusha/app/features/main/screen/menyusha/login/auth_cubit.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/sample_screen.dart";
 import "package:url_launcher/url_launcher.dart";
 
 import "../../../../../../data/firebase/menu/menu_payload.dart";
@@ -47,12 +48,8 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
     final BuildContext context,
     final PrivateMenuState state,
   ) =>
-      Container(
-        color: Colors.white,
-        child: A4PageContainer(
-          color: Colors.white,
-          child: buildBody(state: state),
-        ),
+      A4PageContainer(
+        child: buildBody(state: state),
       );
 
   @override
@@ -181,7 +178,6 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
     );
   }
 
-
   Widget buildItemBody({required final PrivateMenuState state}) {
     Widget widget;
 
@@ -216,31 +212,22 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            AppDesign.buildBlueFilledButton(
-                child: Text(
-                  "PREVIEW",
-                  style: AppStyles.blueFilledButtonTextStyle,
-                ),
+            AppDesign.buildBlueFilledButtonText(
+                text: "PREVIEW",
                 enabled: state.viewMode != Mode.VIEW,
                 onPressed: () {
                   cubit.switchMode();
                 }),
             const SizedBox(width: 8.0),
-            AppDesign.buildBlueFilledButton(
-                child: Text(
-                  "EDIT JSON",
-                  style: AppStyles.blueFilledButtonTextStyle,
-                ),
+            AppDesign.buildBlueFilledButtonText(
+                text: "EDIT JSON",
                 enabled: state.viewMode != Mode.EDIT_JSON,
                 onPressed: () {
                   cubit.switchMode();
                 }),
             const SizedBox(width: 8.0),
-            AppDesign.buildBlueFilledButton(
-                child: Text(
-                  "EDIT UI",
-                  style: AppStyles.blueFilledButtonTextStyle,
-                ),
+            AppDesign.buildBlueFilledButtonText(
+                text: "EDIT UI",
                 enabled: state.viewMode != Mode.EDIT_UI,
                 onPressed: () {
                   cubit.switchMode();
@@ -255,24 +242,21 @@ class _PrivateMenuScreenState extends ResponsiveState<PrivateMenuScreen,
   }
 
   Widget buildBody({required final PrivateMenuState state}) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppDesign.buildLogo(context),
-              AppDesign.buildUserButton(context),
-            ],
-          ),
-          buildDescription(),
-          SizedBox(height: 16.0),
-          state.activeMenu != null
-              ? buildMenuItem(item: state.activeMenu!)
-              : Container(),
-          SizedBox(height: 8.0),
-          state.activeMenu != null ? buildItemBody(state: state) : Container(),
-        ],
+    return TemplateScreenAdmin(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildDescription(),
+            SizedBox(height: 16.0),
+            state.activeMenu != null
+                ? buildMenuItem(item: state.activeMenu!)
+                : Container(),
+            SizedBox(height: 8.0),
+            state.activeMenu != null
+                ? buildItemBody(state: state)
+                : Container(),
+          ],
+        ),
       ),
     );
   }

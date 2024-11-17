@@ -7,6 +7,7 @@ import "package:flutter_markdown/flutter_markdown.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:menyusha/app/features/main/screen/menyusha/theme/sample_screen.dart";
 import "package:menyusha/app/features/main/screen/notfound/not_found.dart";
 import "package:menyusha/app/root/app_router.dart";
 import "package:uuid/uuid.dart";
@@ -35,42 +36,25 @@ class _HelloScreenState
   void onStateChange(BuildContext context, NullState state) {}
 
   @override
-  Widget buildDesktopLayout(BuildContext context, NullState state) => buildBody();
+  Widget buildDesktopLayout(BuildContext context, NullState state) =>
+      buildBody();
 
   @override
-  Widget buildMobileLayout(BuildContext context, NullState state) => buildBody();
+  Widget buildMobileLayout(BuildContext context, NullState state) =>
+      buildBody();
 
   Widget buildBody() {
-    return Container(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AppDesign.buildLogo(context),
-              const SizedBox(height: 16.0),
-              _buildTextSection(),
-              const SizedBox(height: 16.0),
-              _buildRegistrationRow(),
-              const SizedBox(height: 66.0),
-              _buildFooterText(),
-              const SizedBox(height: 32.0),
-            //  const Spacer(),
-
-              _buildCopyrightSection(),
-            ],
-          ),
-        ),
+    return TemplateScreen(
+      child: Column(
+        children: [
+          _buildTextSection(),
+          const SizedBox(height: 16.0),
+          _buildRegistrationRow(),
+          const SizedBox(height: 66.0),
+          _buildFooterText(),
+          const SizedBox(height: 32.0),
+        ],
       ),
-    );
-  }
-
-  Widget _buildLogo() {
-    return Image.asset(
-      'assets/images/localmenu.png',
-      width: 270,
-      height: 130,
     );
   }
 
@@ -109,32 +93,12 @@ class _HelloScreenState
   }
 
   Widget _buildHoverButton() {
-    return HoverButton(
-      onDoubleTap: () {},
-      hoverColor: Colors.transparent,
-      color: Colors.transparent,
-      onTap: () {
-        final router = AutoRouter.of(context);
-        router.navigate(LoginRoute());
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            const Icon(Icons.arrow_forward, color: Colors.black),
-            const SizedBox(width: 4.0),
-            Text(
-              'Увійти',
-              style: AppStyles.bodyStyle.copyWith(
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return AppDesign.buildBlueFilledButtonText(
+        text: "Увійти",
+        onPressed: () {
+          final router = AutoRouter.of(context);
+          router.navigate(LoginRoute());
+        });
   }
 
   Widget _buildFooterText() {
@@ -142,18 +106,6 @@ class _HelloScreenState
       'Застосунок знаходиться у розробці, але скоро ви зможете легко створювати меню, ділитися ним та оновлювати його в зручному інтерфейсі.',
       style: AppStyles.footerStyle,
       textAlign: TextAlign.start,
-    );
-  }
-
-  Widget _buildCopyrightSection() {
-    return Column(
-      children: [
-        Text(
-          "Ⓒ 2024",
-          style: AppStyles.copyrightStyle,
-        ),
-        SvgManager.bandana(width: 8, height: 10),
-      ],
     );
   }
 }
