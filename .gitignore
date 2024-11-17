@@ -57,3 +57,6 @@ app.*.map.json
 /dotenv.env
 /report.xml
 .env
+.firebase/
+/build
+build/

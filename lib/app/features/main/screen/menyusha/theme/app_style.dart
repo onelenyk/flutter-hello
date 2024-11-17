@@ -1,8 +1,11 @@
+import "dart:math";
+
 import "package:auto_route/auto_route.dart";
 import "package:flutter/material.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
 
+import "../../../../../common/util/svg_manager.dart";
 import "../../../../../root/app_router.dart";
 import "../login/auth_cubit.dart";
 
@@ -31,21 +34,36 @@ class _ImageLoaderState extends State<ImageLoader>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: FadeTransition(
-        opacity: _controller,
-        child: AppDesign.buildLogo(context),
-      ),
-    );
-  }
+  Widget build(final BuildContext context) => Center(
+        child: FadeTransition(
+          opacity: _controller,
+          child: AppDesign.buildLogo(context),
+        ),
+      );
 }
 
 class AppDesign {
+  static Color getContrastingColor(final Color color) =>
+      color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+
+  static Widget buildCopyrightTextYear(final Color? bgColor) => Text(
+        "Ⓒ 2024",
+        style: AppStyles.copyrightStyle.copyWith(
+            color: bgColor == null ? null : getContrastingColor(bgColor)),
+      );
+
+  static Widget buildCopyrightSection() => Column(
+        children: [
+          buildCopyrightTextYear(null),
+          SvgManager.bandana(
+              width: 8, height: 10, color: AppColors.fontOnBackground),
+        ],
+      );
+
   static Widget buildLogoLoader() =>
       Container(width: 270, height: 130, child: ImageLoader());
 
-  static Widget buildLogoSmall(BuildContext context) => GestureDetector(
+  static Widget buildLogoSmall(final BuildContext context) => GestureDetector(
         onTap: () {
           final router = AutoRouter.of(context);
           router.navigate(HelloRoute());
@@ -54,14 +72,12 @@ class AppDesign {
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: SizedBox(
             height: 20,
-            child: Image.asset(
-              'assets/images/localmenu.png',
-            ),
+            child: SvgManager.logo(width: 8, height: 10),
           ),
         ),
       );
 
-  static Widget buildLogo(BuildContext context) => GestureDetector(
+  static Widget buildLogo(final BuildContext context) => GestureDetector(
         onTap: () {
           final router = AutoRouter.of(context);
           router.navigate(HelloRoute());
@@ -69,24 +85,20 @@ class AppDesign {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: SizedBox(
-            height: 44,
-            child: Image.asset(
-              'assets/images/localmenu.png',
-            ),
+            height: 40,
+            width: 100,
+            child: SvgManager.logo(width: 100, height: 40),
           ),
         ),
       );
 
-  static Widget buildUserButton(BuildContext context) {
+  static Widget buildUserButton(final BuildContext context) {
     final getIt = GetIt.instance;
     final cubit = getIt.get<AuthenticationCubit>();
     final state = cubit.state;
 
-    return AppDesign.buildBlueOutlinedButton(
-        child: Text(
-          state.login ?? "",
-          style: AppStyles.blueOutlinedButtonTextStyle,
-        ),
+    return AppDesign.buildBlueOutlinedButtonText(
+        text: state.login ?? "",
         onPressed: () {
           cubit.signOut();
           final router = AutoRouter.of(context);
