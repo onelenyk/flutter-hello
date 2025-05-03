@@ -16,6 +16,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: HelloRoute.page, path: "/", initial: true),
         //
         AutoRoute(page: NotFoundRoute.page, path: "/not-found"),
-        RedirectRoute(path: "*", redirectTo: "not-found"),
+        RedirectRoute(path: "*", redirectTo: "/not-found"),
       ];
 }

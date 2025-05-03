@@ -23,7 +23,7 @@ class HelloState {
 
   final Social resume = Social(
     title: "Resume",
-    url: "lenyk_resume.pdf",
+    url: "https://compose.onelenyk.dev/lenyk_resume.pdf",
   );
 
   final List<String> translations = [

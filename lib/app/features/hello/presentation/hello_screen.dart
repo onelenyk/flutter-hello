@@ -275,9 +275,7 @@ class HelloContent extends StatelessWidget {
                     openLink(state.gitHub.url);
                   },
                   resume: () {
-                    downloadPdfFromAssets(
-                      "assets/lenyk_resume_latest.pdf",
-                    );
+                    openLink(state.resume.url);
                   },
                 ),
               ),

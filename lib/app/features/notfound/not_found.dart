@@ -6,6 +6,7 @@ import "package:google_fonts/google_fonts.dart";
 
 import "../../common/hover_button.dart";
 import "../../root/app_router.dart";
+import "../hello/base/base_screen.dart";
 import "../hello/base/mobile_frame.dart";
 import "../hello/base/responsive_state.dart";
 
@@ -35,45 +36,49 @@ class _NotFoundScreenState
   Widget buildMobileLayout(final BuildContext context, final NullState state) =>
       buildBody(state: state);
 
-  Widget buildBody({required final NullState state}) => MobileFrame(
-          child: SingleChildScrollView(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Text(
-        '404',
-        style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold, color: Colors.black),
-      ),
-      const SizedBox(height: 16),
-      const Text(
-        'The page you are looking for does not exist.',
-        style: TextStyle(fontSize: 24, color: Colors.black),
-        textAlign: TextAlign.center,
+  Widget buildBody({required final NullState state}) => BaseScreen(
+    child: Center(
+      child: MobileFrame(
+              child: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            '404',
+            style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'The page you are looking for does not exist.',
+            style: TextStyle(fontSize: 24, color: Colors.black),
+            textAlign: TextAlign.center,
 
-      ),
-      const SizedBox(height: 32),
-      HoverButton(
-        onTap: () {
-          final router = AutoRouter.of(context);
-          router.navigate(HelloRoute());
-        },
-        onDoubleTap: () {},
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Text(
-            "home",
-            style: GoogleFonts.robotoMono(
-              fontSize: 14,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          ),
+          const SizedBox(height: 32),
+          HoverButton(
+            onTap: () {
+              final router = AutoRouter.of(context);
+              router.navigate(HelloRoute());
+            },
+            onDoubleTap: () {},
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              child: Text(
+                "home",
+                style: GoogleFonts.robotoMono(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
-    ],
-  ),
-          ),
-        );
+              ),
+            ),
+    ),
+  );
 }
 
 // Define a NullState that doesn't hold any specific data

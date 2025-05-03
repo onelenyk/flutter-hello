@@ -7,12 +7,11 @@ import "app_router.dart";
 
 class RootComponent extends StatelessWidget {
   RootComponent({super.key}) {
-    getIt
-      ..registerSingleton<AppRouter>(AppRouter());
+    // getIt..registerSingleton<AppRouter>(AppRouter());
   }
   final getIt = GetIt.instance;
 
-  late final _router = getIt.get<AppRouter>();
+  late final _router = AppRouter();
 
   ThemeData _buildTheme(final brightness) {
     final baseTheme = ThemeData(brightness: brightness);
