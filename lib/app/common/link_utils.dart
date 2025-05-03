@@ -2,9 +2,10 @@ import "dart:html";
 
 import "package:flutter/services.dart";
 
-void openLink(final String url) {
-  window.open(url, "_blank");
+void openLink(String url, {bool isNewTab = true}) {
+  window.open(url, isNewTab ? '_blank' : '_self',);
 }
+
 
 
 Future<void> downloadPdfFromAssets(final String assetPath) async {

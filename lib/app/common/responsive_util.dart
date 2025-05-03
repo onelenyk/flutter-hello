@@ -1,6 +1,13 @@
 import "package:flutter/material.dart";
 
 class ResponsiveUtil {
+  static bool isDesktopFullNotTablet(final BuildContext context) {
+    final isFullDesktop = isDesktopFull(context);
+    final isNotTablet = !isTablet(context);
+
+    return isFullDesktop && isNotTablet;
+  }
+
   static bool isMobile(final BuildContext context) =>
       MediaQuery.of(context).size.width < 600;
 
@@ -13,6 +20,7 @@ class ResponsiveUtil {
 
   static bool isDesktop(final BuildContext context) =>
       MediaQuery.of(context).size.width >= 1024;
+
 
   static bool isDesktopFull(final BuildContext context) {
     var alwaysReturnMobile = alwaysBehaveLikeMobile;

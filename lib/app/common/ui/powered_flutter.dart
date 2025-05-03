@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import "package:google_fonts/google_fonts.dart";
-import "package:menyusha/app/common/util/svg_manager.dart";
+
+import "../util/svg_manager.dart";
 
 class PoweredByFlutterWidget extends StatelessWidget {
   @override
@@ -16,8 +17,8 @@ class PoweredByFlutterWidget extends StatelessWidget {
         Text(
           'Powered by Flutter',
           style: GoogleFonts.robotoMono(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],

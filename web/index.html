@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <!-- Google Sign-In Client ID -->
     <meta name="google-signin-client_id"
-          content="484842176385-uoacb8pcvp1l6tonf6qd0rf13kh7suml.apps.googleusercontent.com"/>
+          content="none"/>
     <!-- Mobile App Capabilities -->
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-    <meta name="apple-mobile-web-app-title" content="onelenyk.dev"/>
+    <meta name="apple-mobile-web-app-title" content="Hello | Flutter"/>
     <!-- Icons -->
     <link rel="apple-touch-icon" href="/icons/apple-icon.png"/>
     <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png"/>
@@ -31,7 +31,7 @@
     <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#ffffff"/>
     <!-- Title -->
-    <title>onelenyk.dev</title>
+    <title>Hello | Flutter</title>
     <!-- Manifest for PWA -->
     <link rel="manifest" href="manifest.json"/>
     <script>
@@ -42,37 +42,41 @@
     <script defer src="flutter.js"></script>
     <!-- Inline CSS for image loader styles -->
     <style>
-        /* Reset default margins and paddings */
         body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+        #loading {
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #111315;
+            justify-content: center;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
         }
-        /* Styles for the blinking image */
-       #blinking-image {
-            width: 270px;
-            height: 130px;
-               object-fit: contain;
-            animation: blink 2s infinite ease-in-out;
+        .emoji {
+            font-size: 6rem;
+            animation: 2s ease 0s infinite beat;
         }
-
-        /* Blinking animation */
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        @keyframes beat {
+            0%,
+            50%,
+            100% {
+                transform: scale(1.4, 1.4);
+            }
+            30%,
+            80% {
+                transform: scale(1, 1);
+            }
         }
     </style>
 </head>
 <body>
-<!-- Loading screen with blinking image -->
-<img id="blinking-image" src="assets/assets/svg/mainlogo.svg" alt="Logo">
-<!-- Flutter initialization script -->
+<!-- Loading screen with blinking div -->
+<div class="loading" id="loading">
+    <div class="emoji">👾</div>
+</div><!-- Flutter initialization script -->
 <script>
     window.addEventListener("load", function () {
         var loading = document.getElementById("blinking-image");
