@@ -1,6 +1,6 @@
 # Flutter Starter Template
 
-A clean Flutter starter template with essential features for building modern applications.
+A clean Flutter starter template with essential features for building modern applications. This template provides a solid foundation with Bloc state management, type-safe navigation, dependency injection, and responsive design utilities.
 
 ## Core Features
 
